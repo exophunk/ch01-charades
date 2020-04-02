@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <App
+    <Room
         :user="{{ auth()->user() }}"
         :room="{{ json_encode($room) }}"
     />

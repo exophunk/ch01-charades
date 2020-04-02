@@ -1,11 +1,23 @@
 <template>
     <div class="app">
-        Hi {{ user.name }}
+        <h1>{{ room.name }}</h1>
+
+        <Game />
+        <Teams />
     </div>
 </template>
 
 <script>
+
+    import Game from './Game';
+    import Teams from './Teams';
+
     export default {
+
+        components: {
+            Game,
+            Teams,
+        },
 
         props: {
             user: {
@@ -18,8 +30,9 @@
             },
         },
 
-        mounted() {
-
+        created() {
+            this.$store.commit('setUser', this.user);
+            this.$store.commit('setRoom', this.room);
         }
     }
 </script>

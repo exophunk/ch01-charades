@@ -26,4 +26,9 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['belongsToRoom'])->group(function () {
         Route::get('/room/{room_id}', 'PageRoomController@index')->name('room');
     });
+
+    Route::post('/actions/game/create-word', 'GameController@actionCreateWord')->name('action-create-word');
+    Route::post('/actions/game/go-to-next-cycle', 'GameController@actionGoToNextCycle')->name('action-go-to-next-cycle');
+    Route::post('/actions/game/start-round', 'GameController@actionStartRound')->name('action-start-round');
+
 });

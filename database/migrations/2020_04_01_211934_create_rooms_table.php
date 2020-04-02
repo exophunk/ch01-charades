@@ -17,7 +17,7 @@ class CreateRoomsTable extends Migration
             $table->id();
             $table->string('name');
             $table->smallInteger('round_duration')->default(60);
-            $table->smallInteger('round')->default(0);
+            $table->smallInteger('cycle')->default(0);
             $table->timestamps();
         });
     }
