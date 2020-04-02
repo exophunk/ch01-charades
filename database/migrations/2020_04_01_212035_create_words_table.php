@@ -20,6 +20,14 @@ class CreateWordsTable extends Migration
             $table->foreignId('user_id');
             $table->foreignId('room_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('room_id')->references('id')->on('rooms')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
@@ -30,6 +38,10 @@ class CreateWordsTable extends Migration
      */
     public function down()
     {
+        Schema::table('words', function(Blueprint $table) {
+            $table->dropForeign('words_user_id_foreign');
+            $table->dropForeign('words_room_id_foreign');
+		});
         Schema::dropIfExists('words');
     }
 }

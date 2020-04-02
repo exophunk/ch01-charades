@@ -36,4 +36,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function words()
+    {
+        return $this->hasMany(\App\Models\Word::class);
+    }
+
+    public function teams()
+    {
+        return $this->belongsToMany(\App\Models\Team::class, 'team_users')
+            ->using(\App\Models\TeamUser::class)
+            ->withPivot([
+                'score',
+            ]);
+    }
+
+    public function rooms()
+    {
+        return $this->hasManyThrough(\App\Models\Room::class, \App\Models\Team::class);
+    }
 }

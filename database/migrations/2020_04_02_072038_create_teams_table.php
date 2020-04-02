@@ -19,6 +19,10 @@ class CreateTeamsTable extends Migration
             $table->smallInteger('score')->default(0);
             $table->foreignId('room_id');
             $table->timestamps();
+
+            $table->foreign('room_id')->references('id')->on('rooms')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
@@ -29,6 +33,9 @@ class CreateTeamsTable extends Migration
      */
     public function down()
     {
+        Schema::table('teams', function(Blueprint $table) {
+			$table->dropForeign('teams_room_id_foreign');
+		});
         Schema::dropIfExists('teams');
     }
 }
