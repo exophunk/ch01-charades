@@ -12,10 +12,14 @@
                 type: Object,
                 required: true,
             },
+            room: {
+                type: Object,
+                required: true,
+            },
         },
 
         mounted() {
-            console.log('Component mounted.')
+
         }
     }
 </script>

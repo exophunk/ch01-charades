@@ -19,4 +19,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', 'PageHomeController@index')->name('home');
+    Route::post('/actions/home/create-room', 'PageHomeController@actionCreateRoom')->name('action-create-room');
+
+    Route::middleware(['belongsToRoom'])->group(function () {
+        Route::get('/room/{room_id}', 'PageRoomController@index')->name('room');
+    });
+});

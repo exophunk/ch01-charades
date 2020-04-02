@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class TeamUser extends Pivot
 {
+
+    protected $table = 'team_users';
+
     public function team()
     {
         return $this->belongsTo(\App\Models\Team::class);

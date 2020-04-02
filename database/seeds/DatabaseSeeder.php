@@ -29,6 +29,24 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
+        DB::table('users')->insert([
+            'id' => 3,
+            'name' => 'Hans',
+            'email' => 'hello+hans@robertkrieg.ch',
+            'email_verified_at' => now(),
+            'password' => Hash::make('12345678'),
+            'remember_token' => Str::random(10),
+        ]);
+
+        DB::table('users')->insert([
+            'id' => 4,
+            'name' => 'Peter',
+            'email' => 'hello+peter@robertkrieg.ch',
+            'email_verified_at' => now(),
+            'password' => Hash::make('12345678'),
+            'remember_token' => Str::random(10),
+        ]);
+
         DB::table('rooms')->insert([
             'id' => 1,
             'name' => 'Charades Fun Night',
@@ -54,7 +72,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('team_users')->insert([
             'id' => 2,
-            'team_id' => 1,
+            'team_id' => 2,
             'user_id' => 2,
         ]);
 

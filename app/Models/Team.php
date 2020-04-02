@@ -7,10 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Team extends Model
 {
 
+    protected $fillable = ['name'];
 
     public function room()
     {
         return $this->belongsTo(\App\Models\Room::class);
+    }
+
+    public function teamUsers()
+    {
+        return $this->hasMany(\App\Models\TeamUser::class);
     }
 
     public function users()
