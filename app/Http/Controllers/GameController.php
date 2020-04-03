@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Word;
 use App\Models\Room;
 use App\Models\Round;
-
-use App\Http\Requests\CreateWordRequest;
+use App\Events\CreateWord;
+use App\Events\StartRound;
+use App\Events\StartCycle;
+use App\Events\ResetCycle;
 
 class GameController extends Controller
 {
@@ -32,26 +34,33 @@ class GameController extends Controller
         $word->room_id = $request->input('room_id');
         $word->user_id = Auth::user()->id;
         $word->save();
+        event(new CreateWord($word));
     }
 
     /**
      *
      */
-    public function actionGoToNextCycle(Request $request)
+    public function actionStartCycle(Request $request)
     {
         $room = Room::findOrFail($request->input('room_id'));
         $room->cycle++;
         $room->save();
+        event(new StartCycle($room));
     }
 
     /**
      *
      */
-    public function actionStartRound(Request $request)
+    public function actionResetCycle(Request $request)
     {
-
         $room = Room::findOrFail($request->input('room_id'));
+        $room->reset();
+        $room->load('rounds', 'words', 'teams.users');
+        event(new ResetCycle($room));
+    }
 
+    /**
+     *
      */
     public function actionStartRound(Request $request)
     {

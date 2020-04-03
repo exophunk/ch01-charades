@@ -1,7 +1,7 @@
 <template>
-    <div class="add-words">
+    <div class="create-word">
         <input type="text" v-model="word">
-        <button @click="addNewWord">Add</button>
+        <button @click="createWord">Add</button>
     </div>
 </template>
 
@@ -18,8 +18,8 @@
         },
 
         methods: {
-            addNewWord() {
-                this.$store.dispatch('addNewWord', this.word);
+            createWord() {
+                this.$store.dispatch('createWord', this.word);
                 this.word = '';
             }
         }

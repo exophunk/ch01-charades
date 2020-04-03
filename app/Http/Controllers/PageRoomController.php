@@ -9,13 +9,12 @@ class PageRoomController extends Controller
 {
     /**
      * Show room page
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index($id)
     {
         $room = Room::with([
                 'words',
+                'rounds',
                 'teams.users',
             ])->findOrFail($id);
         return view('room', compact([

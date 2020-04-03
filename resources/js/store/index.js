@@ -8,23 +8,37 @@ const store = new Vuex.Store({
     },
 
     mutations: {
-        setUser(state, payload) {
-            state.user = payload;
+        setUser(state, user) {
+            state.user = user;
         },
-        setRoom(state, payload) {
-            state.room = payload;
+        setRoom(state, room) {
+            state.room = room;
+        },
+        setCycle(state, cycle) {
+            state.room.cycle = cycle;
+        },
+        addRound(state, round) {
+            state.room.rounds.push(round);
+        },
+        createWord(state, word) {
+            state.room.words.push(word);
         },
     },
 
     actions: {
-        async addNewWord({ commit, state }, word) {
+        async createWord({ commit, state }, word) {
             await axios.post('/actions/game/create-word', {
                 word,
                 room_id: state.room.id,
             });
         },
-        async goToNextCycle({ commit, state }) {
-            await axios.post('/actions/game/go-to-next-cycle', {
+        async startCycle({ commit, state }) {
+            await axios.post('/actions/game/start-cycle', {
+                room_id: state.room.id,
+            });
+        },
+        async resetCycle({ commit, state }) {
+            await axios.post('/actions/game/reset-cycle', {
                 room_id: state.room.id,
             });
         },
@@ -44,6 +58,9 @@ const store = new Vuex.Store({
         },
         words(state) {
             return state.room.words;
+        },
+        rounds(state) {
+            return state.room.rounds;
         },
     },
 });

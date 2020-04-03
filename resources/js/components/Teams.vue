@@ -13,7 +13,7 @@
                     :key="user.id"
                     class="team__members"
                 >
-                    {{ user.name }}
+                    {{ user.id }} - {{ user.name }}
                     ({{ user.pivot.score }})
                 </li>
             </ul>

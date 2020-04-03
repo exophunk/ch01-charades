@@ -10,6 +10,11 @@ class Room extends Model
 
     protected $fillable = ['name'];
 
+    public function rounds()
+    {
+        return $this->hasMany(\App\Models\Round::class);
+    }
+
     public function words()
     {
         return $this->hasMany(\App\Models\Word::class);
@@ -35,5 +40,12 @@ class Room extends Model
             ->orderBy('team_users_count', 'asc')
             ->first()
             ->users()->attach($user);
+    }
+
+    public function reset() {
+        $this->rounds()->delete();
+        $this->teams()->update(['score' => 0]);
+        $this->cycle = 0;
+        $this->save();
     }
 }
