@@ -12,7 +12,7 @@ class Room extends Model
 
     public function rounds()
     {
-        return $this->hasMany(\App\Models\Round::class);
+        return $this->hasMany(\App\Models\Round::class)->orderBy('round_start', 'desc');
     }
 
     public function words()

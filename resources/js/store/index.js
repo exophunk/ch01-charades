@@ -18,7 +18,7 @@ const store = new Vuex.Store({
             state.room.cycle = cycle;
         },
         addRound(state, round) {
-            state.room.rounds.push(round);
+            state.room.rounds.unshift(round);
         },
         createWord(state, word) {
             state.room.words.push(word);
@@ -50,6 +50,9 @@ const store = new Vuex.Store({
     },
 
     getters: {
+        userTeam(state) {
+            return state.room.teams.find(team => team.users.some(user => user.id === state.user.id));
+        },
         teams(state) {
             return state.room.teams;
         },
@@ -61,6 +64,9 @@ const store = new Vuex.Store({
         },
         rounds(state) {
             return state.room.rounds;
+        },
+        latestRound(state) {
+            return state.room.rounds.length ? state.room.rounds[0] : null;
         },
     },
 });

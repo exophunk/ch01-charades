@@ -1,5 +1,16 @@
 <template>
     <div class="game">
+
+        <div class="countdown" v-if="isRoundActive">
+            {{ remainingRoundTimePercentage }} - {{ remainingRoundTimeText }}
+        </div>
+
+
+        <div class="is-you" v-if="isRoundActive">
+            {{ isYourTeam ? 'Dein Team' : 'Gegner' }}
+            {{ isYourTurn ? 'DU BISCH DRA' : 'Zuschauer' }}
+        </div>
+
         <div class="cycle">
             cycle: {{ cycle }}
         </div>
@@ -28,7 +39,13 @@
 
 <script>
 
-    import { mapGetters } from 'vuex';
+    import { mapGetters, mapState } from 'vuex';
+    import parseISO from 'date-fns/parseISO';
+    import isBefore from 'date-fns/isBefore';
+    import isAfter from 'date-fns/isAfter';
+    import differenceInSeconds from 'date-fns/differenceInSeconds';
+    import formatDistanceStrict from 'date-fns/formatDistanceStrict';
+    import { de } from 'date-fns/locale'
     import CreateWord from './CreateWord';
 
     export default {
@@ -37,8 +54,28 @@
             CreateWord,
         },
 
+        data() {
+            return {
+                isRoundActive: false,
+                remainingRoundTimePercentage: 0,
+                remainingRoundTimeText: '',
+            };
+        },
+
         computed: {
-            ...mapGetters(['cycle', 'words', 'rounds']),
+            ...mapGetters(['cycle', 'words', 'rounds', 'latestRound', 'userTeam']),
+            ...mapState(['user']),
+
+            isYourTurn() {
+                return this.latestRound && this.latestRound.user_id === this.user.id;
+            },
+            isYourTeam() {
+                return this.latestRound && this.latestRound.team_id === this.userTeam.id;
+            },
+        },
+
+        mounted() {
+            setInterval(this.loop, 1000);
         },
 
         methods: {
@@ -51,6 +88,20 @@
             startRound() {
                 this.$store.dispatch('startRound');
             },
+            loop() {
+                this.isRoundActive = this.latestRound
+                    && isAfter(new Date(), new Date(this.latestRound.round_start))
+                    && isBefore(new Date(), new Date(this.latestRound.round_end));
+
+                if (this.isRoundActive) {
+                    const remainingRoundTimeSeconds = differenceInSeconds(new Date(this.latestRound.round_end), new Date());
+                    this.remainingRoundTimePercentage = 1 / this.$store.state.room.round_duration * remainingRoundTimeSeconds;
+                    this.remainingRoundTimeText = formatDistanceStrict(new Date(), new Date(this.latestRound.round_end), {
+                        unit: 'second',
+                        locale: de,
+                    });
+                }
+            }
         },
     }
 </script>
