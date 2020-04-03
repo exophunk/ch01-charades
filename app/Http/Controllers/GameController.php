@@ -17,8 +17,16 @@ class GameController extends Controller
     /**
      *
      */
-    public function actionCreateWord(CreateWordRequest $request)
+    public function actionCreateWord(Request $request)
     {
+        $request->validate([
+            'word' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+        ]);
+
         $word = new Word();
         $word->word = $request->input('word');
         $word->room_id = $request->input('room_id');
