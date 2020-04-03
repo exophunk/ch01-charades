@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use \App\Models\Room;
 
-class BelongsToRoom
+class JoinRoom
 {
     /**
      * Handle an incoming request.
