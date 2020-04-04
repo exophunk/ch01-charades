@@ -16,7 +16,7 @@ class CreateWordsTable extends Migration
         Schema::create('words', function (Blueprint $table) {
             $table->id();
             $table->string('word');
-            $table->boolean('guessed')->default(false);
+            $table->boolean('solved')->default(false);
             $table->foreignId('user_id');
             $table->foreignId('room_id');
             $table->timestamps();

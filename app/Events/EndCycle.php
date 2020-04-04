@@ -10,22 +10,20 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class StartRound implements ShouldBroadcast
+class EndCycle implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $round;
-    public $nextTurn;
+    public $room;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($round, $nextTurn)
+    public function __construct($room)
     {
-        $this->round = $round;
-        $this->nextTurn = $nextTurn;
+        $this->room = $room;
     }
 
     /**
@@ -35,6 +33,7 @@ class StartRound implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('room.' . $this->round->room_id);
+        return new PrivateChannel('room.' . $this->room->id);
     }
+
 }

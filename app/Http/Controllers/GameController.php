@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use App\Models\Word;
 use App\Models\Room;
 use App\Models\Round;
@@ -13,6 +12,10 @@ use App\Events\CreateWord;
 use App\Events\StartRound;
 use App\Events\StartCycle;
 use App\Events\ResetCycle;
+use App\Events\SolveWord;
+use App\Events\EndCycle;
+
+
 
 class GameController extends Controller
 {
@@ -65,58 +68,57 @@ class GameController extends Controller
     public function actionStartRound(Request $request)
     {
         $room = Room::findOrFail($request->input('room_id'));
-
-        // SELECT team_users.team_id, team_users.user_id, round_start, MAX(round_start) as last_played FROM team_users
-        // LEFT JOIN rounds
-        // ON team_users.user_id = rounds.user_id AND rounds.room_id = 1
-        // WHERE team_users.team_id IN (SELECT id from teams WHERE room_id = 1)
-        // AND
-        // (team_users.team_id !=
-        //     (SELECT team_id
-        //     FROM rounds
-        //     WHERE room_id = 1
-        //     ORDER BY round_start DESC
-        //     LIMIT 1)
-        // OR (SELECT count(*) FROM rounds r WHERE r.room_id = 1 ) = 0)
-        // GROUP BY team_users.team_id, team_users.user_id
-        // ORDER BY last_played, team_users.team_id, team_users.id
-		// LIMIT 1;
-
-        $result = DB::table('team_users')->select('team_users.team_id', 'team_users.user_id', DB::raw('MAX(round_start) as last_played'))
-            ->leftJoin('rounds', function ($join) use ($room) {
-                $join->on('team_users.user_id', '=', 'rounds.user_id')
-                     ->where('rounds.room_id', '=', $room->id);
-            })
-            ->whereRaw('team_users.team_id IN (SELECT id from teams WHERE room_id = ?)', [$room->id])
-            ->where(function ($query) use ($room) {
-                $query
-                    ->whereRaw('team_users.team_id != (SELECT team_id FROM rounds WHERE room_id = ? ORDER BY round_start DESC LIMIT 1)', [$room->id])
-                    ->orWhere(function ($query) use ($room) {
-                        $query
-                            ->select(DB::raw('count(*)'))
-                            ->from('rounds as r')
-                            ->where('r.room_id', $room->id);
-                    }, 0);
-            })
-            ->groupBy('team_users.team_id')
-            ->groupBy('team_users.user_id')
-            ->orderBy('last_played')
-            ->orderBy('team_users.team_id')
-            ->orderBy('team_users.id')
-            ->first();
-
-        // TODO
-        if (!$result) {
-            return abort(500);
-        }
-
         $round = new Round();
         $round->room_id = $room->id;
-        $round->team_id = $result->team_id;
-        $round->user_id = $result->user_id;
+        $round->team_id = $room->next_turn->team_id;
+        $round->user_id = $room->next_turn->user_id;
         $round->round_start = Carbon::now();
         $round->round_end = Carbon::now()->addSeconds($room->round_duration);
         $round->save();
-        event(new StartRound($round));
+        event(new StartRound($round, $room->next_turn));
+    }
+
+    /**
+     *
+     */
+    public function actionSolveWord(Request $request)
+    {
+        $user = auth()->user();
+
+        $room = Room::findOrFail($request->input('room_id'));
+        $word = Word::findOrFail($request->input('word_id'));
+
+        if ($word->solved) {
+            return;
+        }
+
+        $word->solved = true;
+        $word->save();
+
+        $team = $user->getTeamOfRoom($room);
+        $team->team_user->score++;
+        $team->team_user->save();
+        $team->score++;
+        $team->save();
+
+        $room->loadCount(['words' => function ($query) {
+            $query->where('solved', false);
+        }]);
+
+        if ($room->words_count == 0) {
+            $room->cycle++;
+            $room->save();
+            $room->words()->update(['solved' => false]);
+            $room->load('rounds', 'words', 'teams.users');
+            $latestRound = $room->rounds()->latest()->first();
+            $latestRound->round_end = null;
+            $latestRound->save();
+            event(new EndCycle($room));
+        } else {
+            $room->load('rounds', 'words', 'teams.users');
+            event(new SolveWord($room));
+        }
+
+
     }
 }

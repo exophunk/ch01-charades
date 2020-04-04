@@ -25,6 +25,7 @@ class Team extends Model
             ->using(\App\Models\TeamUser::class)
             ->withPivot([
                 'score',
-            ]);
+            ])
+            ->as('team_user');
     }
 }

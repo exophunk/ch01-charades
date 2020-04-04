@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/actions/game/start-cycle', 'GameController@actionStartCycle')->name('action-start-cycle');
         Route::post('/actions/game/reset-cycle', 'GameController@actionResetCycle')->name('action-reset-cycle');
         Route::post('/actions/game/start-round', 'GameController@actionStartRound')->name('action-start-round');
+        Route::post('/actions/game/solve-word', 'GameController@actionSolveWord')->name('action-solve-word');
     });
 
 });

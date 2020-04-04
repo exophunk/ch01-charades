@@ -48,11 +48,18 @@ class User extends Authenticatable
             ->using(\App\Models\TeamUser::class)
             ->withPivot([
                 'score',
-            ]);
+            ])
+            ->as('team_user');
     }
 
     public function rooms()
     {
         return $this->hasManyThrough(\App\Models\Room::class, \App\Models\Team::class);
     }
+
+    public function getTeamOfRoom($room)
+    {
+        return $this->teams()->where('room_id', $room->id)->first();
+    }
+
 }
