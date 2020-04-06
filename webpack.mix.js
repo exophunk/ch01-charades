@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const { config } = require('./webpack.mix.config');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +12,35 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/build/js')
-   .sass('resources/sass/app.scss', 'public/build/css');
+
+mix
+
+    .setPublicPath('./public/build')
+    .webpackConfig(config.webpack)
+    .options({
+        extractVueStyles: true,
+        globalVueStyles: 'resources/assets/scss/includes/index.scss',
+    })
+
+    // Build Javascript
+    .js('resources/assets/js/app.js', 'js')
+
+    // Extract libraries to vendor.js file
+    .extract([
+        'vue',
+    ])
+
+    // Build Stylesheets
+    .sass('resources/assets/scss/global/index.scss', 'css', config.sass)
+
+    // Build sourcemaps
+    .sourceMaps()
+
+    // Start BrowserSync
+    .browserSync(config.browserSync);
+
+
+// Version Files
+if (mix.inProduction()) {
+    mix.version();
+}
