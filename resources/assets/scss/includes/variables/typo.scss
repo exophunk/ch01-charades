@@ -1,0 +1,27 @@
+/**
+ * -----------------------------------------------------------------------
+ * typo
+ * -----------------------------------------------------------------------
+ *
+ * Place all typography settings in here.
+ * It is best to create a mixin for each typography «look», including font-size, weight etc.
+ *
+ * CAUTION:
+ * - Do not put any content output here. Only Sass Variables, Functions, Mixins, no classes!
+ *
+ * TIPS:
+ * - Avoid spacings like margins and paddings here
+ *
+ *
+ *
+ * @licence   MIT
+ * @version   1.0.0
+ */
+
+// Font Families
+$font-default: 'Roboto Condensed', sans-serif;
+
+
+@mixin typo-body {
+
+}

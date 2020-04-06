@@ -1,0 +1,23 @@
+/**
+ * -----------------------------------------------------------------------
+ * body
+ * -----------------------------------------------------------------------
+ */
+
+html {
+    min-height: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    @include typo-body;
+    min-height: 100%;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.body-scrollable {
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
