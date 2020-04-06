@@ -71,13 +71,12 @@
 
             listenToEvents() {
                 this.$options.channelRoom.listen('JoinRoom', (data) => {
-                    this.$store.commit('setTeams', data.teams);
+                    this.$store.commit('setRoom', data.room);
                 });
                 this.$options.channelRoom.listen('LeaveRoom', (data) => {
-                    this.$store.commit('setTeams', data.teams);
+                    this.$store.commit('setRoom', data.room);
                 });
                 this.$options.channelRoom.listen('SwitchTeam', (data) => {
-                    console.log(data.room);
                     this.$store.commit('setRoom', data.room);
                 });
                 this.$options.channelRoom.listen('KickUser', (data) => {

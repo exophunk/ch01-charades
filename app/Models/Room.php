@@ -33,6 +33,11 @@ class Room extends Model
         return $this->hasManyThrough(\App\Models\TeamUser::class, \App\Models\Team::class);
     }
 
+    public function admin()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'admin_user_id');
+    }
+
     public function hasUser(User $user)
     {
         return $this->teamUsers()->where('user_id', $user->id)->exists();
@@ -46,6 +51,13 @@ class Room extends Model
             ->first()
             ->users()->attach($user);
     }
+
+    public function switchAdmin()
+    {
+        $this->admin_user_id = $this->teamUsers[0] ? $this->teamUsers[0]->user_id : null;
+        $this->save();
+    }
+
 
     public function reset()
     {

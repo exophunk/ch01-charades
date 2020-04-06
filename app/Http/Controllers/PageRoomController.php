@@ -28,8 +28,14 @@ class PageRoomController extends Controller
      */
     public function actionLeaveRoom(Request $request)
     {
+        $user =  auth()->user();
         $room = Room::findOrFail($request->input('room_id'));
-        $room->teamUsers()->where('user_id', auth()->user()->id)->delete();
+        $room->teamUsers()->where('user_id', $user->id)->delete();
+
+        if ($room->admin_user_id === $user->id) {
+            $room->switchAdmin();
+        }
+
         event(new LeaveRoom($room));
     }
 

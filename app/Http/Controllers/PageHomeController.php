@@ -35,10 +35,12 @@ class PageHomeController extends Controller
         ]);
 
         $room = Room::create($request->all());
+        $room->admin()->associate(auth()->user());
         $room->teams()->createMany([
             [ 'name' => 'Team 1'],
             [ 'name' => 'Team 2'],
         ]);
+        $room->save();
         return redirect()->route('room', [ 'room_id' => $room->id]);
     }
 }

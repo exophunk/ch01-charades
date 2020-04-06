@@ -4,9 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use \App\Models\Room;
-use App\Events\JoinRoom as JoinRoomEvent;
 
-class JoinRoom
+class AuthRoomAdmin
 {
     /**
      * Handle an incoming request.
@@ -17,17 +16,9 @@ class JoinRoom
      */
     public function handle($request, Closure $next)
     {
-        $user = auth()->user();
         $room = Room::findOrFail($request->room_id);
-        if (!$room->hasUser($user)) {
-
-            if(!$room->admin_user_id) {
-                $room->admin()->associate($user);
-                $room->save();
-            }
-
-            $room->addUserToTeam($user);
-            event(new JoinRoomEvent($room));
+        if ($room->admin_user_id !== auth()->user()->id) {
+            return abort(403);
         }
         return $next($request);
     }

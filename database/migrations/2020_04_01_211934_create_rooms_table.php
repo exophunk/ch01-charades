@@ -18,7 +18,12 @@ class CreateRoomsTable extends Migration
             $table->string('name');
             $table->smallInteger('round_duration')->default(60);
             $table->smallInteger('cycle')->default(0);
+            $table->foreignId('admin_user_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('admin_user_id')->references('id')->on('users')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
         });
     }
 
@@ -29,6 +34,9 @@ class CreateRoomsTable extends Migration
      */
     public function down()
     {
+        Schema::table('rooms', function(Blueprint $table) {
+            $table->dropForeign('rooms_admin_user_id_foreign');
+		});
         Schema::dropIfExists('rooms');
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="admin-controls">
+    <div v-if="isAdmin" class="admin-controls">
         <ButtonClearWords />
         <ButtonResetCycle />
         <ButtonResetGame />
@@ -9,12 +9,17 @@
 
 <script>
 
+    import { mapGetters } from 'vuex';
     import ButtonClearWords from './ButtonClearWords';
     import ButtonResetCycle from './ButtonResetCycle';
     import ButtonResetGame from './ButtonResetGame';
     import ButtonStartGame from './ButtonStartGame';
 
     export default {
+
+        computed: {
+            ...mapGetters(['isAdmin']),
+        },
 
         components: {
             ButtonClearWords,

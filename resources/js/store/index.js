@@ -137,6 +137,9 @@ const store = new Vuex.Store({
         isThisUsersTurn(state, otherGetters) {
             return state.user.id === otherGetters.currentUser.id;
         },
+        isAdmin(state) {
+            return state.user.id === state.room.admin_user_id;
+        },
     },
 });
 

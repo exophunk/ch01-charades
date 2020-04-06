@@ -1,6 +1,6 @@
 <template>
     <button
-        v-if="user.id !== $store.state.user.id"
+        v-if="isAdmin && user.id !== $store.state.user.id"
         @click="kickUser"
         class="button button-kick-user"
     >
@@ -22,7 +22,7 @@
         },
 
         computed: {
-            ...mapGetters(['cycle']),
+            ...mapGetters(['isAdmin', 'cycle']),
         },
 
         methods: {

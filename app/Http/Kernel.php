@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'room.join' => \App\Http\Middleware\JoinRoom::class,
         'room.auth' => \App\Http\Middleware\AuthRoom::class,
+        'room.auth.admin' => \App\Http\Middleware\AuthRoomAdmin::class,
     ];
 }

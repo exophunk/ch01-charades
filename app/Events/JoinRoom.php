@@ -35,14 +35,4 @@ class JoinRoom implements ShouldBroadcast
     {
         return new PrivateChannel('room.' . $this->room->id);
     }
-
-    /**
-     * Get the data to broadcast.
-     *
-     * @return array
-     */
-    public function broadcastWith()
-    {
-        return ['teams' => $this->room->teams];
-    }
 }
