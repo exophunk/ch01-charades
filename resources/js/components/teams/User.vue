@@ -1,14 +1,20 @@
 <template>
     <div class="user" :class="classes">
         {{ user.id }} - {{ user.name }} - ({{ user.team_user.score }}) {{ isCurrentUser ? '<==' : '' }}
+        <KickUser :user="user" />
     </div>
 </template>
 
 <script>
 
     import { mapGetters } from 'vuex';
+    import KickUser from '../admin-controls/ButtonKickUser';
 
     export default {
+
+        components: {
+            KickUser,
+        },
 
         props: {
             user: {

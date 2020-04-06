@@ -17,6 +17,8 @@ class CreateRoundsTable extends Migration
             $table->id();
             $table->timestamp('round_start')->nullable();
             $table->timestamp('round_end')->nullable();
+            $table->smallInteger('cycle');
+            $table->smallInteger('score')->default(0);
             $table->foreignId('team_id');
             $table->foreignId('user_id');
             $table->foreignId('room_id');

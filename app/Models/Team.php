@@ -8,6 +8,7 @@ class Team extends Model
 {
 
     protected $fillable = ['name'];
+    protected $with = ['users'];
 
     public function room()
     {
@@ -26,6 +27,7 @@ class Team extends Model
             ->withPivot([
                 'score',
             ])
-            ->as('team_user');
+            ->as('team_user')
+            ->orderBy('name');
     }
 }

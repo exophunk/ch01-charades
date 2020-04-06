@@ -1,5 +1,5 @@
 <template>
-    <div class="create-word">
+    <div v-if="cycle == 0" class="create-word">
         <input type="text" v-model="word">
         <button @click="createWord">Add</button>
     </div>
@@ -7,7 +7,7 @@
 
 <script>
 
-
+    import { mapGetters } from 'vuex';
 
     export default {
 
@@ -15,6 +15,10 @@
             return {
                 word: '',
             };
+        },
+
+        computed: {
+            ...mapGetters(['cycle']),
         },
 
         methods: {

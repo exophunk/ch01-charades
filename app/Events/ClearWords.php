@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class StartCycle implements ShouldBroadcast
+class ClearWords implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -43,6 +43,7 @@ class StartCycle implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return ['cycle' => $this->room->cycle];
+        return [];
     }
+
 }

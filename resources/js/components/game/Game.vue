@@ -7,41 +7,23 @@
             <li v-for="round in rounds" :key="round.id">{{ round.round_start }}, User: {{ round.user_id }}</li>
         </ul>
 
-        <CreateWord v-if="cycle == 0" />
-
-        <button
-            v-if="cycle == 0"
-            @click="startCycle"
-        >
-            {{ 'Spiel Starten' }}
-        </button>
-
-        <button
-            v-if="cycle > 0 && !isRoundActive && isThisUsersTurn"
-            @click="startRound"
-        >
-            {{ 'Runde Starten' }}
-        </button>
-
-        <button
-            v-if="cycle > 0"
-            @click="resetCycle"
-        >
-            {{ 'Reset' }}
-        </button>
+        <CreateWord />
+        <ButtonStartRound />
     </div>
 </template>
 
 <script>
 
-    import { mapGetters, mapState } from 'vuex';
+    import { mapGetters } from 'vuex';
     import Words from './Words';
     import CreateWord from './CreateWord';
+    import ButtonStartRound from './ButtonStartRound';
 
     export default {
 
         components: {
             CreateWord,
+            ButtonStartRound,
             Words,
         },
 
@@ -51,8 +33,7 @@
         },
 
         computed: {
-            ...mapGetters(['cycle', 'rounds', 'isThisUsersTurn']),
-            ...mapState(['isRoundActive']),
+            ...mapGetters(['rounds']),
         },
 
         mounted() {
@@ -60,15 +41,6 @@
         },
 
         methods: {
-            startCycle() {
-                this.$store.dispatch('startCycle');
-            },
-            resetCycle() {
-                this.$store.dispatch('resetCycle');
-            },
-            startRound() {
-                this.$store.dispatch('startRound');
-            },
 
         },
     }

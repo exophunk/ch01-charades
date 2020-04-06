@@ -10,8 +10,10 @@ use App\Models\Room;
 use App\Models\Round;
 use App\Events\CreateWord;
 use App\Events\StartRound;
-use App\Events\StartCycle;
+use App\Events\StartGame;
+use App\Events\ResetGame;
 use App\Events\ResetCycle;
+use App\Events\ClearWords;
 use App\Events\SolveWord;
 use App\Events\EndCycle;
 
@@ -43,12 +45,22 @@ class GameController extends Controller
     /**
      *
      */
-    public function actionStartCycle(Request $request)
+    public function actionStartGame(Request $request)
     {
         $room = Room::findOrFail($request->input('room_id'));
         $room->cycle++;
         $room->save();
-        event(new StartCycle($room));
+        event(new StartGame($room));
+    }
+
+    /**
+     *
+     */
+    public function actionResetGame(Request $request)
+    {
+        $room = Room::findOrFail($request->input('room_id'));
+        $room->reset();
+        event(new ResetGame($room));
     }
 
     /**
@@ -57,9 +69,34 @@ class GameController extends Controller
     public function actionResetCycle(Request $request)
     {
         $room = Room::findOrFail($request->input('room_id'));
-        $room->reset();
-        $room->load('rounds', 'words', 'teams.users');
+        $room->words()->update(['solved' => 0]);
+
+        $rounds = $room->rounds()->where('cycle', $room->cycle);
+
+        $rounds->each(function ($round) use ($room) {
+
+            $team = $room->teams()->where('id', $round->team_id)->first();
+            $teamUser = $room->teamUsers()->where('user_id', $round->user_id)->first();
+
+            $team->score -= $round->score;
+            $teamUser->score -= $round->score;
+
+            $team->save();
+            $teamUser->save();
+        });
+
+        $rounds->delete();
         event(new ResetCycle($room));
+    }
+
+    /**
+     *
+     */
+    public function actionClearWords(Request $request)
+    {
+        $room = Room::findOrFail($request->input('room_id'));
+        $room->words()->delete();
+        event(new ClearWords($room));
     }
 
     /**
@@ -72,6 +109,7 @@ class GameController extends Controller
         $round->room_id = $room->id;
         $round->team_id = $room->next_turn->team_id;
         $round->user_id = $room->next_turn->user_id;
+        $round->cycle = $room->cycle;
         $round->round_start = Carbon::now();
         $round->round_end = Carbon::now()->addSeconds($room->round_duration);
         $round->save();
@@ -85,8 +123,9 @@ class GameController extends Controller
     {
         $user = auth()->user();
 
-        $room = Room::findOrFail($request->input('room_id'));
+        $round = Round::findOrFail($request->input('round_id'));
         $word = Word::findOrFail($request->input('word_id'));
+        $room = $round->room;
 
         if ($word->solved) {
             return;
@@ -94,6 +133,9 @@ class GameController extends Controller
 
         $word->solved = true;
         $word->save();
+
+        $round->score++;
+        $round->save();
 
         $team = $user->getTeamOfRoom($room);
         $team->team_user->score++;
@@ -109,13 +151,11 @@ class GameController extends Controller
             $room->cycle++;
             $room->save();
             $room->words()->update(['solved' => false]);
-            $room->load('rounds', 'words', 'teams.users');
             $latestRound = $room->rounds()->latest()->first();
             $latestRound->round_end = null;
             $latestRound->save();
             event(new EndCycle($room));
         } else {
-            $room->load('rounds', 'words', 'teams.users');
             event(new SolveWord($room));
         }
 

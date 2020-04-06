@@ -15,6 +15,12 @@ const store = new Vuex.Store({
         setRoom(state, room) {
             state.room = room;
         },
+        setTeams(state, teams) {
+            state.room.teams = teams;
+        },
+        setWords(state, words) {
+            state.room.words = words;
+        },
         setCycle(state, cycle) {
             state.room.cycle = cycle;
         },
@@ -41,8 +47,13 @@ const store = new Vuex.Store({
                 room_id: state.room.id,
             });
         },
-        async startCycle({ commit, state }) {
-            return await axios.post('/actions/game/start-cycle', {
+        async startGame({ commit, state }) {
+            return await axios.post('/actions/game/start-game', {
+                room_id: state.room.id,
+            });
+        },
+        async resetGame({ commit, state }) {
+            return await axios.post('/actions/game/reset-game', {
                 room_id: state.room.id,
             });
         },
@@ -56,10 +67,34 @@ const store = new Vuex.Store({
                 room_id: state.room.id,
             });
         },
-        async solveWord({ commit, state }, word) {
+        async clearWords({ commit, state }) {
+            return await axios.post('/actions/game/clear-words', {
+                room_id: state.room.id,
+            });
+        },
+        async solveWord({ commit, state, getters }, word) {
             return await axios.post('/actions/game/solve-word', {
                 word_id: word.id,
                 room_id: state.room.id,
+                round_id: getters.latestRound.id,
+            });
+        },
+        async leaveRoom({ commit, state }) {
+            await axios.post('/actions/room/leave-room', {
+                room_id: state.room.id,
+            });
+            window.location.href = '/home';
+        },
+        async switchTeam({ commit, state }) {
+            await axios.post('/actions/room/switch-team', {
+                room_id: state.room.id,
+                user_id: state.user.id,
+            });
+        },
+        async kickUser({ commit, state }, user) {
+            await axios.post('/actions/room/kick-user', {
+                room_id: state.room.id,
+                user_id: user.id,
             });
         },
     },
@@ -93,6 +128,9 @@ const store = new Vuex.Store({
             return state.room.rounds.length ? state.room.rounds[0] : null;
         },
         currentUser(state, otherGetters) {
+            if (!state.room.next_turn) {
+                return state.user;
+            }
             const id = otherGetters.latestRound && state.isRoundActive ? otherGetters.latestRound.user_id : state.room.next_turn.user_id;
             return otherGetters.allUsers.find(user => user.id === id);
         },

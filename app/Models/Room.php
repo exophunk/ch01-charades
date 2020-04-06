@@ -11,6 +11,7 @@ class Room extends Model
 
     protected $fillable = ['name'];
     protected $appends = ['next_turn'];
+    protected $with = ['rounds', 'words', 'teams'];
 
     public function rounds()
     {

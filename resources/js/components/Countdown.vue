@@ -1,5 +1,5 @@
 <template>
-    <div class="countdown">
+    <div v-if="latestRound && isRoundActive" class="countdown">
         <div class="countdown__bar">
             {{ text }}
         </div>
@@ -23,7 +23,7 @@
         },
 
         computed: {
-            ...mapState(['room']),
+            ...mapState(['room', 'isRoundActive']),
             ...mapGetters(['latestRound']),
         },
 
@@ -33,9 +33,11 @@
 
         methods: {
             loop() {
-                this.seconds = differenceInSeconds(new Date(this.latestRound.round_end), new Date());
-                this.percentage = 1 / this.room.round_duration * this.seconds;
-                this.text = format(addSeconds(new Date(0), this.seconds), 'mm:ss');
+                if (this.latestRound) {
+                    this.seconds = differenceInSeconds(new Date(this.latestRound.round_end), new Date());
+                    this.percentage = 1 / this.room.round_duration * this.seconds;
+                    this.text = format(addSeconds(new Date(0), this.seconds), 'mm:ss');
+                }
             }
         },
 
