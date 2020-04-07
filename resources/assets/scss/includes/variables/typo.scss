@@ -19,9 +19,17 @@
  */
 
 // Font Families
-$font-default: 'Roboto Condensed', sans-serif;
+$font-default: 'Roboto', sans-serif;
+$font-word: 'Indie Flower', cursive;
 
 
 @mixin typo-body {
+    font-family: $font-default;
+    font-size: 16px;
+}
 
+@mixin typo-word {
+    font-family: $font-word;
+    font-size: 9vw;
+    line-height: 1em;
 }

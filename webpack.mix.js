@@ -18,6 +18,7 @@ mix
     .setPublicPath('./public/build')
     .webpackConfig(config.webpack)
     .options({
+        processCssUrls: false,
         extractVueStyles: true,
         globalVueStyles: 'resources/assets/scss/includes/index.scss',
     })
@@ -29,6 +30,8 @@ mix
     .extract([
         'vue',
     ])
+
+    .copyDirectory('resources/assets/images', 'public/build/images')
 
     // Build Stylesheets
     .sass('resources/assets/scss/global/index.scss', 'css', config.sass)

@@ -54,7 +54,7 @@ class Room extends Model
 
     public function switchAdmin()
     {
-        $this->admin_user_id = $this->teamUsers[0] ? $this->teamUsers[0]->user_id : null;
+        $this->admin_user_id = isset($this->teamUsers[0]) ? $this->teamUsers[0]->user_id : null;
         $this->save();
     }
 
@@ -88,7 +88,7 @@ class Room extends Model
         // ORDER BY last_played, team_users.team_id, team_users.id
 		// LIMIT 1;
 
-        return DB::table('team_users')->select('team_users.team_id', 'team_users.user_id', DB::raw('MAX(round_start) as last_played'))
+        $result = DB::table('team_users')->select('team_users.team_id', 'team_users.user_id', DB::raw('MAX(round_start) as last_played'))
             ->leftJoin('rounds', function ($join) {
                 $join->on('team_users.user_id', '=', 'rounds.user_id')
                      ->where('rounds.room_id', '=', $this->id);
@@ -110,5 +110,16 @@ class Room extends Model
             ->orderBy('team_users.team_id')
             ->orderBy('team_users.id')
             ->first();
+
+        if ($result) {
+            return $result;
+        } else if (isset($this->teamUsers[0])) {
+            return (object)[
+                'team_id' => $this->teamUsers[0]->team_id,
+                'user_id' => $this->teamUsers[0]->user_id,
+            ];
+        } else {
+            return null;
+        }
     }
 }
