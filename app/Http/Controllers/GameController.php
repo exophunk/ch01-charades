@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Word;
 use App\Models\Room;
 use App\Models\Round;
@@ -68,24 +69,25 @@ class GameController extends Controller
      */
     public function actionResetCycle(Request $request)
     {
-        $room = Room::findOrFail($request->input('room_id'));
-        $room->words()->update(['solved' => 0]);
+        DB::transaction(function () use ($request) {
+            $room = Room::findOrFail($request->input('room_id'));
+            $room->words()->update(['solved' => 0]);
 
-        $rounds = $room->rounds()->where('cycle', $room->cycle);
+            $rounds = $room->rounds()->where('cycle', $room->cycle);
 
-        $rounds->each(function ($round) use ($room) {
+            $rounds->each(function ($round) use ($room) {
+                $team = $room->teams()->where('id', $round->team_id)->first();
+                $teamUser = $room->teamUsers()->where('user_id', $round->user_id)->first();
 
-            $team = $room->teams()->where('id', $round->team_id)->first();
-            $teamUser = $room->teamUsers()->where('user_id', $round->user_id)->first();
+                $team->score -= $round->score;
+                $teamUser->score -= $round->score;
 
-            $team->score -= $round->score;
-            $teamUser->score -= $round->score;
+                $team->save();
+                $teamUser->save();
+            });
 
-            $team->save();
-            $teamUser->save();
+            $rounds->delete();
         });
-
-        $rounds->delete();
         event(new ResetCycle($room));
     }
 
@@ -121,44 +123,44 @@ class GameController extends Controller
      */
     public function actionSolveWord(Request $request)
     {
-        $user = auth()->user();
+        DB::transaction(function () use ($request) {
+            $user = auth()->user();
 
-        $round = Round::findOrFail($request->input('round_id'));
-        $word = Word::findOrFail($request->input('word_id'));
-        $room = $round->room;
+            $round = Round::findOrFail($request->input('round_id'));
+            $word = Word::findOrFail($request->input('word_id'));
+            $room = $round->room;
 
-        if ($word->solved) {
-            return;
-        }
+            if ($word->solved) {
+                return;
+            }
 
-        $word->solved = true;
-        $word->save();
+            $word->solved = true;
+            $word->save();
 
-        $round->score++;
-        $round->save();
+            $round->score++;
+            $round->save();
 
-        $team = $user->getTeamOfRoom($room);
-        $team->team_user->score++;
-        $team->team_user->save();
-        $team->score++;
-        $team->save();
+            $team = $user->getTeamOfRoom($room);
+            $team->team_user->score++;
+            $team->team_user->save();
+            $team->score++;
+            $team->save();
 
-        $room->loadCount(['words' => function ($query) {
-            $query->where('solved', false);
-        }]);
+            $room->loadCount(['words' => function ($query) {
+                $query->where('solved', false);
+            }]);
 
-        if ($room->words_count == 0) {
-            $room->cycle++;
-            $room->save();
-            $room->words()->update(['solved' => false]);
-            $latestRound = $room->rounds()->latest()->first();
-            $latestRound->round_end = null;
-            $latestRound->save();
-            event(new EndCycle($room));
-        } else {
-            event(new SolveWord($room));
-        }
-
-
+            if ($room->words_count == 0) {
+                $room->cycle++;
+                $room->save();
+                $room->words()->update(['solved' => false]);
+                $latestRound = $room->rounds()->latest()->first();
+                $latestRound->round_end = null;
+                $latestRound->save();
+                event(new EndCycle($room));
+            } else {
+                event(new SolveWord($room));
+            }
+        });
     }
 }
