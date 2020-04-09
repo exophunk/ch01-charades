@@ -1,22 +1,15 @@
 <template>
     <div class="teams">
 
-        <div class="team__names">
-            <h3
-                v-for="team in teams"
-                :key="`name-${team.id}`"
-                class="team__name"
-            >
-                {{ team.name }}
-            </h3>
-        </div>
+        <div
+            v-for="(team, i) in teams"
+            :key="`name-${team.id}`"
+            class="team"
+            :class="`team-${i+1}`"
+        >
+            <h3 class="team__name">{{ team.name }}</h3>
 
-        <div class="team__teams">
-            <ul
-                v-for="team in teams"
-                :key="`users-${team.id}`"
-                class="team__team"
-            >
+            <ul class="team__team" :class="{ 'team__team--multiple' : team.users.length > 1 }">
                 <li
                     v-for="user in team.users"
                     :key="user.id"
@@ -25,14 +18,8 @@
                     <User :user="user" />
                 </li>
             </ul>
-        </div>
 
-        <div class="team__scores">
-            <div
-                v-for="team in teams"
-                :key="`score-${team.id}`"
-                class="team__score"
-            >
+            <div class="team__score">
                 <div class="team__score-fives"
                     v-for="i in (Math.floor(team.score / 5))"
                     :key="`fives-${i}`"
@@ -56,6 +43,9 @@
                 </div>
             </div>
         </div>
+
+
+
     </div>
 </template>
 
@@ -74,9 +64,9 @@
 
             ...mapGetters(['teams', 'latestRound', 'currentPlayer']),
 
-            isActiveTurn() {
-                return this.latestRound != null && this.$store.state.isRoundActive && this.user.id === this.latestRound.user_id;
-            },
+            // isActiveTurn() {
+            //     return this.latestRound != null && this.$store.state.isRoundActive && this.user.id === this.latestRound.user_id;
+            // },
 
             classes() {
                 return {
@@ -90,45 +80,55 @@
 
 <style lang="scss" scoped>
     .teams {
-        @include mq($from: tablet) {
-            width: 40%;
-            padding: 0 20px;
-        }
-        @include mq($from: desktop) {
-            width: 30%;
-        }
-    }
-
-    .team__names,
-    .team__teams,
-    .team__scores {
         display: flex;
     }
 
-    .team__name {
+    .team {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
         width: 50%;
-        margin: 0 10px;
-        font-size: 12px;
-        line-height: 1em;
-        font-weight: bold;
-        text-transform: uppercase;
-        white-space: nowrap;
+
+        padding: 15px;
+    }
+
+
+    .team-1 { background: linear-gradient(195deg, var(--color-team-1-light) 10%, var(--color-team-1-dark) 80%); }
+    .team-1 .team__name { color: var(--color-team-1-heading); }
+    .team-1 .team__score { color: var(--color-team-1-contrast); }
+    .team-1 .score-dash, .team-1 .score-dash--over, { background: var(--color-team-1-contrast); }
+
+    .team-2 { background: linear-gradient(195deg, var(--color-team-2-light) 10%, var(--color-team-2-dark) 80%); }
+    .team-2 .team__name { color: var(--color-team-2-heading); }
+    .team-2 .team__score { color: var(--color-team-2-contrast); }
+    .team-2 .score-dash, .team-2 .score-dash--over, { background: var(--color-team-2-contrast); }
+
+
+    .team__name {
+        @include typo-heading-2;
     }
 
     .team__team {
-        width: 50%;
-        margin: 0 10px;
+        margin-top: 10px;
+        &.team__team--multiple {
+            column-count: 2;
+            column-gap: 5px;
+        }
+    }
+
+    .team__user {
+        flex-shrink: 0;
+    }
+
+    .team__user + .team__user {
         margin-top: 10px;
     }
 
     .team__score {
-        position: relative;
+        margin-top: auto;
+        margin-left: 3px;
+        padding-top: 10px;
         display: flex;
-        flex-wrap: wrap;
-        width: 50%;
-        margin: 10px 10px;
-        margin-left: 13px;
-        padding-right: 30px;
 
         .team__score-fives {
             display: flex;
@@ -138,10 +138,10 @@
                 transform: rotate(7deg);
             }
         }
+
         .score-dash {
             width: 2px;
             height: 12px;
-            background: #666;
             border-radius: 5px;
             margin-right: 2px;
 
@@ -149,21 +149,18 @@
                 transform: rotate(-3deg);
             }
         }
+
         .score-dash--over {
             width: 2px;
             height: 18px;
-            background: #666;
             transform: translateX(-10px) translateY(-4px) rotate(-70deg);
         }
+
         .team__score-number {
-            // position: absolute;
-            // right: 0;
-            // bottom: 0;
             margin-left: 5px;
             font-size: 12px;
             line-height: 1em;
             font-weight: bold;
-            color: green;
         }
     }
 

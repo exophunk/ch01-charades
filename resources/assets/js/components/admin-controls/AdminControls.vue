@@ -3,7 +3,7 @@
         <ButtonClearWords />
         <ButtonResetCycle />
         <ButtonResetGame />
-        <ButtonStartGame />
+
     </div>
 </template>
 
@@ -13,7 +13,7 @@
     import ButtonClearWords from './ButtonClearWords';
     import ButtonResetCycle from './ButtonResetCycle';
     import ButtonResetGame from './ButtonResetGame';
-    import ButtonStartGame from './ButtonStartGame';
+
 
     export default {
 
@@ -25,7 +25,6 @@
             ButtonClearWords,
             ButtonResetCycle,
             ButtonResetGame,
-            ButtonStartGame,
         },
 
     }

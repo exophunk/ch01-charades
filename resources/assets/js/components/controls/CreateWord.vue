@@ -38,40 +38,42 @@
 
 <style lang="scss" scoped>
     .create-word {
-        position: relative;
-        transform: translateY(-50%);
-
+        display: flex;
+        align-items: center;
+        margin: 0 auto;
+        width: 80%;
     }
 
     input {
-        width: calc(100% - 2 * 15px);
-        margin-left: 15px;
-        padding: 0 85px 0 15px;
-        height: 80px;
+        flex-grow: 1;
+        margin-right: 15px;
+        height: 70px;
         font-family: $font-word;
-        font-size: 18px;
+        font-size: 20px;
+        font-weight: bold;
         line-height: 1em;
-        border-radius: 45px;
-        border: 1px solid #eee;
-        box-shadow: 2px 2px 5px rgba(black, 0.3) inset;
+        border: 0;
+        border-bottom: 2px solid $color-white;
+        background: none;
+        color: $color-white;
+
+        &::placeholder {
+            color: $color-text-light;
+        }
     }
 
     button {
-        position: absolute;
-        right: 25px;
-        top: 50%;
         width: 60px;
         height: 60px;
         border-radius: 50%;
         text-transform: uppercase;
-        transform: translateY(-50%);
-        background: black;
+        background: none;
         color: white;
+        border: 2px solid $color-white;
         transition: all 0.3s ease;
 
         &[disabled] {
-            background: #ddd;
-            color: #999;
+            opacity: 0.5;
         }
     }
 </style>

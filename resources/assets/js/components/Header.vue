@@ -1,7 +1,7 @@
 <template>
     <div class="header">
-        <h1>{{ room.name }}</h1>
-        {{ cycle }}
+        <h1 class="header__game-name">{{ room.name }}</h1>
+        <div class="header__cycle">{{ cycle }}</div>
     </div>
 </template>
 
@@ -24,5 +24,16 @@
 <style lang="scss" scoped>
     .header {
         width: 100%;
+        padding: 15px;
+    }
+
+    .header__game-name {
+        @include typo-heading;
+        color: var(--color-current-team);
+    }
+
+    .header__cycle {
+        @include typo-small;
+        margin-top: 3px;
     }
 </style>

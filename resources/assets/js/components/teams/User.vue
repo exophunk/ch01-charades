@@ -1,9 +1,8 @@
 <template>
     <div class="user" :class="classes">
-        <div class="user__avatar">{{ user.name.substr(0, 1).toUpperCase() }}</div>
-        <span class="user__name">{{ user.name }} </span>
-        <span class="user__score">{{ user.team_user.score }}</span>
-        <KickUser :user="user" />
+        <div class="user__avatar">{{ user.team_user.score }}</div>
+        <span class="user__name">{{ user.name }}</span>
+        <!-- <KickUser :user="user" /> -->
     </div>
 </template>
 
@@ -53,51 +52,48 @@
         margin-bottom: 3px;
         line-height: 1em;
         white-space: nowrap;
+
     }
+
+    .team-1 .user { color: var(--color-team-1-contrast); }
+    .team-1 .user__avatar { border: 2px solid var(--color-team-1-contrast); }
+    .team-1 .user--is-current .user__avatar {background: var(--color-team-1-contrast); color: var(--color-team-1-anticontrast); }
+    .team-1 .user--is-current .user__avatar {background: var(--color-team-1-contrast); color: var(--color-team-1-anticontrast); }
+
+    .team-2 .user { color: var(--color-team-2-contrast); }
+    .team-2 .user__avatar { border: 2px solid var(--color-team-2-contrast); }
+    .team-2 .user--is-current .user__avatar {background: var(--color-team-2-contrast); color: var(--color-team-2-anticontrast); }
+
     .user__avatar {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 20px;
-        height: 20px;
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
         margin-right: 5px;
-        border: 2px solid white;
-        font-weight: bold;
-        font-size: 9px;
-        color: white;
-        background: #4a4a4a;
+        font-weight: 900;
     }
-    .user__name { }
 
-    .user__score {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 15px;
-        height: 15px;
-        margin-left: 5px;
-        border-radius: 50%;
-        background: #eee;
-        color: #777;
-        font-size: 9px;
-        font-weight: bold;
-
+    .user__name {
+        @include typo-small;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .user--is-current {
         .user__avatar {
-            border-color: $color-active;
             animation: shadow-pulse 1s infinite;
         }
     }
 
     @keyframes shadow-pulse {
         0% {
-            box-shadow: 0 0 0 0px rgba($color-active, 0.2);
+            box-shadow: 0 0 0 0px var(--color-current-team-pulse);
         }
         100% {
-            box-shadow: 0 0 0 15px rgba($color-active, 0);
+            box-shadow: 0 0 0 15px var(--color-current-team-pulse-end);
         }
     }
 </style>

@@ -23,9 +23,41 @@ $font-default: 'Roboto', sans-serif;
 $font-word: 'Indie Flower', cursive;
 
 
-@mixin typo-body {
+@mixin typo-heading {
+    font-family: $font-default;
+    font-size: 18px;
+    font-weight: 900;
+}
+
+@mixin typo-heading-2 {
     font-family: $font-default;
     font-size: 16px;
+    font-weight: 900;
+}
+
+@mixin typo-body {
+    font-family: $font-default;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+@mixin typo-bold {
+    font-family: $font-default;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+@mixin typo-small {
+    font-family: $font-default;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+
+@mixin typo-button-big {
+    font-family: $font-default;
+    font-size: 20px;
+    font-weight: 500;
 }
 
 @mixin typo-word {

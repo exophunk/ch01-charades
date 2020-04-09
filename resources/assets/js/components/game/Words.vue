@@ -83,9 +83,8 @@
 
 <style lang="scss" scoped>
     .words {
-        @include aspect-ratio(5, 3);
+        @include aspect-ratio(2, 1);
         width: 100%;
-        background: #dddddd;
 
         // @include mq($from: tablet) {
         //     @include aspect-ratio(4, 3);

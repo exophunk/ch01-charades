@@ -1,0 +1,49 @@
+
+.room {
+    --color-team-1-heading: #{$color-team-1};
+    --color-team-1-light: #{$color-team-default-light};
+    --color-team-1-dark: #{$color-team-default-dark};
+    --color-team-1-contrast: #{$color-team-default-contrast};
+    --color-team-1-anticontrast: #{$color-team-default-anticontrast};
+
+    --color-team-2-heading: #{$color-team-2};
+    --color-team-2-light: #{$color-team-default-light};
+    --color-team-2-dark: #{$color-team-default-dark};
+    --color-team-2-contrast: #{$color-team-default-contrast};
+    --color-team-2-anticontrast: #{$color-team-default-anticontrast};
+
+    --color-current-team: #{$color-team-1};
+    --color-current-team-light: #{$color-team-1-light};
+    --color-current-team-dark: #{$color-team-1-dark};
+    --color-current-team-contrast: #{$color-team-1-contrast};
+}
+
+.room.room--current-team-1 {
+    --color-team-1-heading: #{$color-team-1-contrast};
+    --color-team-1-light: #{$color-team-1-light};
+    --color-team-1-dark: #{$color-team-1-dark};
+    --color-team-1-contrast: #{$color-team-1-contrast};
+    --color-team-1-anticontrast: #{$color-team-1-anticontrast};
+
+    --color-current-team: #{$color-team-1};
+    --color-current-team-light: #{$color-team-1-light};
+    --color-current-team-dark: #{$color-team-1-dark};
+    --color-current-team-contrast: #{$color-team-1-contrast};
+    --color-current-team-pulse: #{$color-team-1-pulse};
+    --color-current-team-pulse-end: #{$color-team-1-pulse-end};
+}
+
+.room.room--current-team-2 {
+    --color-team-2-heading: #{$color-team-2-contrast};
+    --color-team-2-light: #{$color-team-2-light};
+    --color-team-2-dark: #{$color-team-2-dark};
+    --color-team-2-contrast: #{$color-team-2-contrast};
+    --color-team-2-anticontrast: #{$color-team-2-anticontrast};
+
+    --color-current-team: #{$color-team-2};
+    --color-current-team-light: #{$color-team-2-light};
+    --color-current-team-dark: #{$color-team-2-dark};
+    --color-current-team-contrast: #{$color-team-2-contrast};
+    --color-current-team-pulse: #{$color-team-2-pulse};
+    --color-current-team-pulse-end: #{$color-team-2-pulse-end};
+}

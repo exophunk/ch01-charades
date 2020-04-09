@@ -50,6 +50,7 @@ class DatabaseSeeder extends Seeder
         DB::table('rooms')->insert([
             'id' => 1,
             'name' => 'Charades Fun Night',
+            'admin_user_id' => 1,
         ]);
 
         DB::table('teams')->insert([
@@ -72,6 +73,12 @@ class DatabaseSeeder extends Seeder
 
         DB::table('team_users')->insert([
             'id' => 2,
+            'team_id' => 1,
+            'user_id' => 3,
+        ]);
+
+        DB::table('team_users')->insert([
+            'id' => 3,
             'team_id' => 2,
             'user_id' => 2,
         ]);

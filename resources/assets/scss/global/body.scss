@@ -5,19 +5,20 @@
  */
 
 html {
-    min-height: 100%;
+    height: 100%;
     box-sizing: border-box;
 }
 
 body {
     @include typo-body;
-    min-height: 100%;
+    height: 100%;
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: radial-gradient(100vw at 50% 40%, $color-gray-light 0%, $color-gray-dark 100%);
+    color: $color-white;
 }
 
-.body-scrollable {
-    overflow-x: hidden;
-    overflow-y: scroll;
+#app {
+    height: 100%;
 }

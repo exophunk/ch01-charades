@@ -127,6 +127,16 @@ const store = new Vuex.Store({
         latestRound(state) {
             return state.room.rounds.length ? state.room.rounds[0] : null;
         },
+        currentTeam(state, otherGetters) {
+            if (!state.room.next_turn) {
+                return null;
+            }
+            const id = otherGetters.latestRound && state.isRoundActive ? otherGetters.latestRound.team_id : state.room.next_turn.team_id;
+            return state.room.teams.find(team => team.id === id);
+        },
+        currentTeamIndex(state, otherGetters) {
+            return state.room.teams.findIndex(team => team.id === otherGetters.currentTeam.id);
+        },
         currentUser(state, otherGetters) {
             if (!state.room.next_turn) {
                 return state.user;

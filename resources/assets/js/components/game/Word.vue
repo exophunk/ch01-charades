@@ -101,23 +101,13 @@
         background: white;
         padding: 5vw;
         box-shadow: 5px 5px 7px rgba(black, 0.2);
-        width: 80vw;
-        height: 40vw;
+        width: 280px;
+        height: 140px;
         border-radius: 5px;
         transition: all 0.5s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
         transform-style: preserve-3d;
-        // transform-origin: left top;
         backface-visibility: hidden;
 
-        @include mq($from: tablet) {
-            width: 48vw;
-            height: 18vw;
-        }
-
-        @include mq($from: desktop) {
-            width: 30vw;
-            height: 15vw;
-        }
 
         &:after {
             content: '';
@@ -126,7 +116,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #eeeeee;
+            background: #efefef;
+            border: 1px solid #aaaaaa;
             box-shadow: 5px 5px 7px rgba(black, 0.2);
             transform: rotateX(180deg);
             transform-style: preserve-3d;

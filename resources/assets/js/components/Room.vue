@@ -1,12 +1,26 @@
 <template>
-    <div class="room">
-        <Header />
-        <Countdown />
-        <Game />
-        <Teams />
+    <div class="room" :class="classes">
+
+        <div class="room_top">
+            <Header />
+            <Countdown />
+            <div class="room_game">
+                <Words />
+                <ButtonStartRound />
+                <ButtonStartGame />
+            </div>
+        </div>
+
+        <div class="room__actions">
+            <CreateWord />
+        </div>
+
+        <div class="room__bottom">
+            <Teams />
+        </div>
         <AdminControls />
-        <ButtonLeaveRoom />
-        <ButtonSwitchTeam />
+        <!-- <ButtonLeaveRoom /> -->
+        <!-- <ButtonSwitchTeam /> -->
     </div>
 </template>
 
@@ -17,24 +31,29 @@
     import isBefore from 'date-fns/isBefore';
     import isAfter from 'date-fns/isAfter';
     import Header from './Header';
-    import Game from './game/Game';
     import Teams from './teams/Teams';
     import Countdown from './Countdown';
     import AdminControls from './admin-controls/AdminControls';
     import ButtonLeaveRoom from './controls/ButtonLeaveRoom';
     import ButtonSwitchTeam from './controls/ButtonSwitchTeam';
+    import Words from './game/Words';
+    import CreateWord from './controls/CreateWord';
+    import ButtonStartRound from './controls/ButtonStartRound';
+    import ButtonStartGame from './admin-controls/ButtonStartGame';
 
     export default {
 
         components: {
             Header,
-            Game,
             Teams,
             Countdown,
             AdminControls,
             ButtonLeaveRoom,
             ButtonSwitchTeam,
-
+            CreateWord,
+            ButtonStartRound,
+            ButtonStartGame,
+            Words,
         },
 
         props: {
@@ -49,7 +68,16 @@
         },
 
         computed: {
-            ...mapGetters(['latestRound']),
+            ...mapGetters(['cycle', 'latestRound', 'currentTeam', 'currentTeamIndex']),
+
+            classes() {
+                const classes = [];
+                if (this.cycle > 0 && this.currentTeam) {
+                    classes.push(`room--current-team-${this.currentTeamIndex + 1}`);
+                    classes.push(`room--is-started`);
+                }
+                return classes;
+            },
         },
 
         created() {
@@ -132,9 +160,17 @@
 
 <style lang="scss" scoped>
     .room {
-        @include mq($from: tablet) {
-            display: flex;
-            flex-wrap: wrap;
-        }
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-between;
     }
+
+    .room_top { }
+    .room_game {
+        position: relative;
+    }
+
+    .room__actions { }
+    .room__bottom { }
 </style>
