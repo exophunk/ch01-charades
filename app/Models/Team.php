@@ -28,6 +28,6 @@ class Team extends Model
                 'score',
             ])
             ->as('team_user')
-            ->orderBy('name');
+            ->orderBy('id');
     }
 }

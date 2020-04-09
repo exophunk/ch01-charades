@@ -32,4 +32,8 @@ $font-word: 'Indie Flower', cursive;
     font-family: $font-word;
     font-size: 9vw;
     line-height: 1em;
+
+    @include mq($from: tablet) {
+        font-size: 5vw;
+    }
 }

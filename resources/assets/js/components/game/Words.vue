@@ -1,7 +1,9 @@
 <template>
     <div class="words">
 
-        <div class="words__inner">
+        <div
+            class="words__inner"
+        >
             <Word
                 v-for="word in unsolvedWords"
                 :key="word.id"
@@ -9,11 +11,11 @@
                 :randomX="Math.random()"
                 :randomY="Math.random()"
                 :randomRotation="Math.random()"
-                :is-drawn="drawnWord && word.id === drawnWord.id"
+                :is-drawn="isPlaying && drawnWord && word.id === drawnWord.id"
             />
         </div>
 
-        <div v-if="isRoundActive && isThisUsersTurn" class="">
+        <div v-if="isPlaying" class="buttons">
             <button class="button-solve-word" @click="solveWord">Wort erraten</button>
             <button class="button-skip-word" @click="skipWord">Überspringen</button>
         </div>
@@ -40,7 +42,7 @@
 
         computed: {
             ...mapState(['isRoundActive']),
-            ...mapGetters(['isThisUsersTurn', 'unsolvedWords']),
+            ...mapGetters(['cycle', 'isThisUsersTurn', 'unsolvedWords']),
 
             isPlaying() {
                 return this.isRoundActive && this.isThisUsersTurn;
@@ -68,7 +70,6 @@
                 this.$set(this.drawnWord, 'isJustSolved', true);
                 await new Promise((resolve) => { setTimeout(() => { resolve() }, 500) });
                 await this.$store.dispatch('solveWord', this.drawnWord);
-                this.$set(this.drawnWord, 'isJustSolved', false);
                 this.chooseRandomWord();
 
             },
@@ -82,33 +83,49 @@
 
 <style lang="scss" scoped>
     .words {
-        @include aspect-ratio(1, 1);
+        @include aspect-ratio(5, 3);
         width: 100%;
         background: #dddddd;
+
+        // @include mq($from: tablet) {
+        //     @include aspect-ratio(4, 3);
+        // }
     }
 
     .button-solve-word {
         position: absolute;
         border-radius: 50%;
-        width: 20vw;
-        height: 20vw;
+        width: 90px;
+        height: 90px;
         bottom: 0;
         left: 25%;
         background: white;
         transform: translateX(-50%);
         border: 1px solid black;
+        z-index: 2;
+
+        @include mq($from: tablet) {
+            width: 70px;
+            height: 70px;
+        }
     }
 
     .button-skip-word {
         position: absolute;
         border-radius: 50%;
-        width: 20vw;
-        height: 20vw;
+        width: 90px;
+        height: 90px;
         bottom: 0;
         left: 75%;
         transform: translateX(-50%);
         background: white;
         border: 1px solid black;
+        z-index: 2;
+
+        @include mq($from: tablet) {
+            width: 70px;
+            height: 70px;
+        }
     }
 
 

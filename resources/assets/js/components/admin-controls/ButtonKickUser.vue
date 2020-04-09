@@ -32,3 +32,10 @@
         },
     }
 </script>
+
+<style lang="scss" scoped>
+
+    .button-kick-user {
+        display: none;
+    }
+</style>

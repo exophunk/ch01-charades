@@ -1,5 +1,5 @@
 <template>
-    <div class="app">
+    <div class="room">
         <Header />
         <Countdown />
         <Game />
@@ -129,3 +129,12 @@
         }
     }
 </script>
+
+<style lang="scss" scoped>
+    .room {
+        @include mq($from: tablet) {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+</style>

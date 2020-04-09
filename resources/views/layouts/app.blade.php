@@ -18,6 +18,7 @@
     </div>
 
     <!-- Scripts -->
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="{{ asset('build/js/manifest.js') }}" defer></script>
     <script src="{{ asset('build/js/vendor.js') }}" defer></script>
     <script src="{{ asset('build/js/app.js') }}" defer></script>

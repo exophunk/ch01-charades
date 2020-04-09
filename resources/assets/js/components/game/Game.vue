@@ -1,12 +1,6 @@
 <template>
     <div class="game">
-
         <Words />
-
-        <ul>
-            <li v-for="round in rounds" :key="round.id">{{ round.round_start }}, User: {{ round.user_id }}</li>
-        </ul>
-
         <CreateWord />
         <ButtonStartRound />
     </div>
@@ -45,3 +39,11 @@
         },
     }
 </script>
+
+<style lang="scss" scoped>
+    .game {
+        @include mq($from: tablet) {
+            width: 50%;
+        }
+    }
+</style>

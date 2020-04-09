@@ -87,8 +87,9 @@ class GameController extends Controller
             });
 
             $rounds->delete();
+
+            event(new ResetCycle($room));
         });
-        event(new ResetCycle($room));
     }
 
     /**

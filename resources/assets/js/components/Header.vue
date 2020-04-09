@@ -20,3 +20,9 @@
         },
     }
 </script>
+
+<style lang="scss" scoped>
+    .header {
+        width: 100%;
+    }
+</style>
