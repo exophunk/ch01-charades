@@ -21,6 +21,7 @@
 
         methods: {
             resetCycle() {
+                this.$store.commit('setIsNavigationOpen', false);
                 this.$store.dispatch('resetCycle');
             },
         },

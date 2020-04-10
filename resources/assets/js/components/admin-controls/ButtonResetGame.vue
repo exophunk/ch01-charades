@@ -20,6 +20,7 @@
 
         methods: {
             resetGame() {
+                this.$store.commit('setIsNavigationOpen', false);
                 this.$store.dispatch('resetGame');
             },
         },

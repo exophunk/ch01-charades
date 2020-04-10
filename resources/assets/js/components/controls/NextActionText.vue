@@ -52,7 +52,7 @@
     .next-action-text { }
     .next-action-text__kicker {
         @include typo-small;
-        color: #888;
+        color: $color-grey;
 
     }
     .next-action-text__text {

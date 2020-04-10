@@ -31,3 +31,31 @@
         background: var(--color-current-team);
     }
 }
+
+
+
+.navigation-enter-active {
+    transition: all 0.5s ease;
+    .navigation-group { transition: all 0.3s 0.2s ease; }
+    &:after { transition: all 0.3s ease-out; }
+}
+
+.navigation-leave-active {
+    transition: all 0.5s ease;
+    .navigation-group { transition: all 0.3s ease; }
+    &:after { transition: all 0.3s 0.2s ease-in; }
+}
+
+.navigation-enter,
+.navigation-leave-to {
+    opacity: 0.99;
+
+    .navigation-group {
+        transform: translateX(15px);
+        opacity: 0;
+    }
+
+    &:after {
+        transform: translateX(50%) translateY(-50%) scale(0) !important;
+    }
+}

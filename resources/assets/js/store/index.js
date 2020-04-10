@@ -8,6 +8,7 @@ const store = new Vuex.Store({
         room: null,
         isRoundActive: false,
         drawnWord: null,
+        isNavigationOpen: false,
     },
 
     mutations: {
@@ -40,6 +41,9 @@ const store = new Vuex.Store({
         },
         setDrawnWord(state, drawnWord) {
             state.drawnWord = drawnWord;
+        },
+        setIsNavigationOpen(state, isNavigationOpen) {
+            state.isNavigationOpen = isNavigationOpen;
         },
 
     },

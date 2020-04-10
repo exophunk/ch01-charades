@@ -1,22 +1,26 @@
 <template>
-    <div :class="classes" class="countdown">
-        <transition name="fade">
-            <div
-                v-if="latestRound && isRoundActive"
-                :style="barStyle"
-                class="countdown__bar"
-            >
+    <transition name="fade">
+        <div :class="classes" class="countdown">
+            <div v-if="isContainerVisible" class="countdown__inner">
+                <transition name="fade">
+                    <div
+                        v-if="isCountdownVisible"
+                        :style="barStyle"
+                        class="countdown__bar"
+                    >
+                    </div>
+                </transition>
+                <transition name="fade">
+                    <div
+                        v-if="isCountdownVisible"
+                        class="countdown__text"
+                    >
+                        {{ text }}
+                    </div>
+                </transition>
             </div>
-        </transition>
-        <transition name="fade">
-            <div
-                v-if="latestRound && isRoundActive"
-                class="countdown__text"
-            >
-                {{ text }}
-            </div>
-        </transition>
-    </div>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -39,11 +43,19 @@
 
         computed: {
             ...mapState(['room', 'isRoundActive']),
-            ...mapGetters(['latestRound']),
+            ...mapGetters(['cycle', 'latestRound']),
+
+            isContainerVisible() {
+                return this.cycle > 0;
+            },
+
+            isCountdownVisible() {
+                return this.isRoundActive;
+            },
 
             classes() {
                 return {
-                    'countdown--low': this.seconds < 10,
+                    'countdown--low': this.seconds < 10 && this.isCountdownVisible,
                 };
             },
 
@@ -79,6 +91,14 @@
     .countdown {
         position: relative;
         height: 23px;
+    }
+
+    .countdown__inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background: linear-gradient(182deg, $color-grey-light 10%, $color-grey-dark 140%);
         overflow: hidden;
         margin-bottom: 15px;
@@ -97,8 +117,10 @@
 
     .countdown__bar {
         position: absolute;
-        height: 100%;
+        top: 0;
+        left: 0;
         width: 100%;
+        height: 100%;
         transform-origin: left center;
         background: linear-gradient(183deg, var(--color-current-team-light) 10%, var(--color-current-team-dark) 100%);
     }

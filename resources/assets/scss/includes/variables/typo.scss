@@ -67,6 +67,12 @@ $font-word: 'Indie Flower', cursive;
 }
 
 
+@mixin typo-navigation {
+    font-family: $font-default;
+    font-size: 20px;
+    font-weight: 500;
+}
+
 @mixin typo-word {
     font-family: $font-word;
     font-size: 30px;

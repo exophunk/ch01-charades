@@ -1,18 +1,18 @@
 <template>
     <button
-        @click="leaveRoom"
-        class="button button-leave-room"
+        @click="logout"
+        class="button button-logout"
     >
-        {{ 'Spiel verlassen' }}
+        {{ 'Logout' }}
     </button>
 </template>
 
 <script>
     export default {
         methods: {
-            leaveRoom() {
+            logout() {
                 this.$store.commit('setIsNavigationOpen', false);
-                this.$store.dispatch('leaveRoom');
+                this.$store.dispatch('logout');
             },
         },
     }

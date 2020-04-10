@@ -46,9 +46,7 @@
                 </div>
             </div>
         </div>
-
-
-
+        <ButtonSwitchTeam />
     </div>
 </template>
 
@@ -56,11 +54,13 @@
 
     import { mapGetters } from 'vuex';
     import User from './User';
+    import ButtonSwitchTeam from '../controls/ButtonSwitchTeam';
 
     export default {
 
         components: {
             User,
+            ButtonSwitchTeam,
         },
 
         computed: {
@@ -72,6 +72,7 @@
 
 <style lang="scss" scoped>
     .teams {
+        position: relative;
         display: flex;
     }
 
@@ -80,7 +81,6 @@
         flex-direction: column;
         justify-content: flex-start;
         width: 50%;
-
         padding: 15px;
     }
 
@@ -108,7 +108,10 @@
 
     .team__user {
         flex-shrink: 0;
-        width: 50%;
+
+        &:not(:only-child) {
+            width: 50%;
+        }
     }
 
     .team__user {

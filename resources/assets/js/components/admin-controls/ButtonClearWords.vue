@@ -20,6 +20,7 @@
 
         methods: {
             clearWords() {
+                this.$store.commit('setIsNavigationOpen', false);
                 this.$store.dispatch('clearWords');
             },
         },

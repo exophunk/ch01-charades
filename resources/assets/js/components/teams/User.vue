@@ -1,7 +1,11 @@
 <template>
     <div class="user" :class="classes">
         <div class="user__avatar">{{ user.team_user.score }}</div>
-        <span class="user__name">{{ user.name }}</span>
+        <p class="user__name">
+            <span class="user__name-inner">
+                {{ user.name }}
+            </span>
+        </p>
         <!-- <KickUser :user="user" /> -->
     </div>
 </template>
@@ -32,9 +36,14 @@
                 return this.user.id === this.currentUser.id
             },
 
+            isThisUser() {
+                return this.user.id === this.$store.state.user.id
+            },
+
             classes() {
                 return {
                     'user--is-current': this.isCurrentUser && this.cycle > 0,
+                    'user--is-self': this.isThisUser,
                 };
             },
         }
@@ -80,11 +89,18 @@
         @include typo-small;
         overflow: hidden;
         text-overflow: ellipsis;
+        padding-right: 5px;
     }
 
     .user--is-current {
         .user__avatar {
             animation: shadow-pulse 1s infinite;
+        }
+    }
+
+    .user--is-self {
+        .user__name-inner {
+            text-decoration: underline;
         }
     }
 

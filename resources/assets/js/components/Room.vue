@@ -21,9 +21,9 @@
         <div class="room__bottom">
             <Teams />
         </div>
-        <AdminControls />
-        <!-- <ButtonLeaveRoom /> -->
-        <!-- <ButtonSwitchTeam /> -->
+
+        <ButtonHamburger />
+        <NavigationFlyout />
     </div>
 </template>
 
@@ -33,19 +33,20 @@
     import parseISO from 'date-fns/parseISO';
     import isBefore from 'date-fns/isBefore';
     import isAfter from 'date-fns/isAfter';
-    import Header from './Header';
+    import Header from './header/Header';
     import Teams from './teams/Teams';
     import Countdown from './Countdown';
     import Words from './game/Words';
-    import AdminControls from './admin-controls/AdminControls';
     import ButtonStartGame from './admin-controls/ButtonStartGame';
     import CreateWord from './controls/CreateWord';
     import ButtonLeaveRoom from './controls/ButtonLeaveRoom';
-    import ButtonSwitchTeam from './controls/ButtonSwitchTeam';
     import ButtonStartRound from './controls/ButtonStartRound';
     import ButtonSolveWord from './controls/ButtonSolveWord';
     import ButtonSkipWord from './controls/ButtonSkipWord';
+    import ButtonHamburger from './controls/ButtonHamburger';
     import NextActionText from './controls/NextActionText';
+    import NavigationFlyout from './navigation/NavigationFlyout';
+
 
     export default {
 
@@ -53,16 +54,16 @@
             Header,
             Teams,
             Countdown,
-            AdminControls,
             CreateWord,
             Words,
             ButtonLeaveRoom,
-            ButtonSwitchTeam,
             ButtonStartRound,
             ButtonStartGame,
             ButtonSolveWord,
             ButtonSkipWord,
+            ButtonHamburger,
             NextActionText,
+            NavigationFlyout,
         },
 
         props: {
