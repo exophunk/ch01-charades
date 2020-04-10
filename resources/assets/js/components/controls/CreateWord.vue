@@ -1,6 +1,6 @@
 <template>
     <div v-if="cycle == 0" class="create-word">
-        <input id="word" name="word" placeholder="Füge Wörter hinzu..." type="text" v-model="word" @keyup.enter="createWord" maxlength="30">
+        <input id="word" name="word" placeholder="Wort hinzufügen..." type="text" v-model="word" @keyup.enter="createWord" maxlength="30">
         <button @click="createWord" :disabled="word.length <= 2">
             <span class="icon">
                 <i class="fas fa-plus"></i>

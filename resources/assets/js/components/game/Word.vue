@@ -17,35 +17,40 @@
                 type: Object,
                 required: true,
             },
-            randomX: {
-                type: Number,
-                required: true,
-            },
-            randomY: {
-                type: Number,
-                required: true,
-            },
-            randomRotation: {
-                type: Number,
-                required: true,
-            },
-            isDrawn: {
-                type: Boolean,
-                default: false,
-            },
         },
 
         data() {
             return {
+                randomX: 0,
+                randomY: 0,
+                randomRotation: 0,
                 posX: 0,
                 posY: 0,
                 rotation: 0,
+                centerX: 0,
+                centerY: 0,
+                isPositioned: false,
             };
         },
 
         computed: {
+            ...mapState(['isRoundActive', 'drawnWord']),
+            ...mapGetters(['isThisUsersTurn']),
+
+            isDrawn() {
+                return this.isRoundActive && this.isThisUsersTurn && this.word === this.drawnWord;
+            },
+
             style() {
-                return {
+                return this.isDrawn ? {
+                    transform:
+                        `
+                        translateX(calc(${this.centerX}px - 50%))
+                        translateY(calc(${this.centerY}px - 50%))
+                        rotateX(0)
+                        scale(1)
+                        `
+                } : {
                     transform:
                         `
                         translateX(-50%)
@@ -54,19 +59,23 @@
                         translateX(${this.posX}px)
                         translateY(-${this.posY}px)
                         rotate(${this.rotation * 60 - 30}deg)
-                        scale(0.5)
+                        scale(0.25)
                         `
                 };
             },
             classes() {
                 return {
                     'word--is-drawn': this.isDrawn,
-                    'word--is-just-solved': this.word.isJustSolved,
+                    'word--is-positioned': this.isPositioned,
                 };
             },
         },
 
         mounted() {
+            this.randomX = Math.random();
+            this.randomY = Math.random();
+            this.randomRotation = Math.random();
+
             this.setWordPositions();
 
             this.$options.resizeListener = () => {
@@ -74,6 +83,11 @@
             };
 
             window.addEventListener('resize', this.$options.resizeListener);
+
+            setTimeout(() => {
+                this.isPositioned = true;
+            }, 50);
+
         },
 
         methods: {
@@ -81,6 +95,8 @@
                 this.posX = Math.min(Math.max(this.randomX * this.$parent.$el.clientWidth, this.$el.clientWidth / 4), this.$parent.$el.clientWidth - this.$el.clientWidth / 4);
                 this.posY = Math.min(Math.max(this.randomY * this.$parent.$el.clientHeight, this.$el.clientHeight / 4), this.$parent.$el.clientHeight - this.$el.clientHeight / 4);
                 this.rotation = this.randomRotation;
+                this.centerX = this.$parent.$el.clientWidth / 2;
+                this.centerY = this.$parent.$el.clientHeight / 2;
             }
         },
 
@@ -98,16 +114,15 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        background: white;
-        padding: 5vw;
-        box-shadow: 5px 5px 7px rgba(black, 0.2);
         width: 280px;
         height: 140px;
+        padding: 10px;
         border-radius: 5px;
-        transition: all 0.5s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        background: $color-white;
+        color: $color-grey-dark;
+        box-shadow: 5px 5px 7px rgba(black, 0.2);
         transform-style: preserve-3d;
         backface-visibility: hidden;
-
 
         &:after {
             content: '';
@@ -125,23 +140,12 @@
         }
     }
 
+    .word--is-positioned {
+        transition: background 0.5s ease, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
     .word--is-drawn {
-        transform: translateX(calc(50vw - 50%)) translateY(calc(30vw - 50%)) rotate(0) rotateX(0deg) scale(1) !important;
-        z-index: 1;
-
-        @include mq($from: tablet) {
-            transform: translateX(calc(25vw - 50%)) translateY(calc(15vw - 50%)) rotate(0) rotateX(0deg) scale(1) !important;
-        }
+        transition: background 0.5s ease, transform 0.8s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .word--is-just-solved {
-        transform: translateX(calc(50vw - 50%)) translateY(calc(30vw - 50%)) rotate(-30deg) rotateX(0deg) scale(2) !important;
-        background: rgb(119, 212, 119);
-        color: white;
-        opacity: 0;
-
-        @include mq($from: tablet) {
-            transform: translateX(calc(25vw - 50%)) translateY(calc(15vw - 50%)) rotate(-30deg) rotateX(0deg) scale(2) !important;
-        }
-    }
 </style>

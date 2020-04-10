@@ -14,19 +14,19 @@ $color-white: #ffffff;
 $color-active: rgb(236, 80, 80);
 
 
-$color-gray-light: #747474;
-$color-gray-dark: #323232;
+$color-grey-light: #666666;
+$color-grey-dark: #333333;
 
 $color-text-light: rgba(white, 0.6);
 
 
-$color-team-default: #323232;
+$color-team-default: #444444;
 $color-team-default-light: lighten($color-team-default, 20%);
 $color-team-default-dark: darken($color-team-default, 20%);
 $color-team-default-contrast: $color-white;
 $color-team-default-anticontrast: $color-text;
 
-$color-team-1: #f7f678;
+$color-team-1: #fff96b;
 $color-team-1-light: lighten($color-team-1, 20%);
 $color-team-1-dark: darken($color-team-1, 20%);
 $color-team-1-contrast: $color-text;

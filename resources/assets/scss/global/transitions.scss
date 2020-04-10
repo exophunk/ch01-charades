@@ -1,3 +1,4 @@
+
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.5s ease;
@@ -6,4 +7,27 @@
 .fade-enter,
 .fade-leave-to {
     opacity: 0;
+}
+
+
+
+
+.word-enter-active,
+.word-leave-active {
+    transition: all 1s ease;
+    z-index: 3;
+}
+
+.word-enter {
+    opacity: 0;
+    transform: scale(2) rotate(-20deg);
+}
+
+.word-leave-to {
+    opacity: 0;
+    transform: translateX(120vw) scale(1.5) rotate(250deg);
+
+    .word {
+        background: var(--color-current-team);
+    }
 }

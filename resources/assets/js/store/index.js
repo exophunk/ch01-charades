@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 
@@ -6,6 +7,7 @@ const store = new Vuex.Store({
         user: null,
         room: null,
         isRoundActive: false,
+        drawnWord: null,
     },
 
     mutations: {
@@ -36,7 +38,12 @@ const store = new Vuex.Store({
         setNextTurn(state, nextTurn) {
             state.room.next_turn = nextTurn;
         },
-
+        setDrawnWord(state, drawnWord) {
+            state.drawnWord = drawnWord;
+        },
+        setDrawnWordJustSolved(state) {
+            Vue.set(state.drawnWord, 'isJustSolved', true);
+        },
 
     },
 
@@ -72,9 +79,9 @@ const store = new Vuex.Store({
                 room_id: state.room.id,
             });
         },
-        async solveWord({ commit, state, getters }, word) {
+        async solveWord({ commit, state, getters }) {
             return await axios.post('/actions/game/solve-word', {
-                word_id: word.id,
+                word_id: state.drawnWord.id,
                 room_id: state.room.id,
                 round_id: getters.latestRound.id,
             });
@@ -96,6 +103,11 @@ const store = new Vuex.Store({
                 room_id: state.room.id,
                 user_id: user.id,
             });
+        },
+        chooseRandomWord({ commit, state, getters }) {
+            const otherWords = getters.unsolvedWords.length > 1 ? getters.unsolvedWords.filter(word => word !== state.drawnWord) : getters.unsolvedWords;
+            const randomWord = otherWords[Math.floor(Math.random() * otherWords.length)];
+            commit('setDrawnWord', randomWord);
         },
     },
 

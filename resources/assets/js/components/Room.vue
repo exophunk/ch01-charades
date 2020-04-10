@@ -13,6 +13,8 @@
 
         <div class="room__actions">
             <CreateWord />
+            <ButtonSkipWord />
+            <ButtonSolveWord />
         </div>
 
         <div class="room__bottom">
@@ -33,13 +35,15 @@
     import Header from './Header';
     import Teams from './teams/Teams';
     import Countdown from './Countdown';
+    import Words from './game/Words';
     import AdminControls from './admin-controls/AdminControls';
+    import ButtonStartGame from './admin-controls/ButtonStartGame';
+    import CreateWord from './controls/CreateWord';
     import ButtonLeaveRoom from './controls/ButtonLeaveRoom';
     import ButtonSwitchTeam from './controls/ButtonSwitchTeam';
-    import Words from './game/Words';
-    import CreateWord from './controls/CreateWord';
     import ButtonStartRound from './controls/ButtonStartRound';
-    import ButtonStartGame from './admin-controls/ButtonStartGame';
+    import ButtonSolveWord from './controls/ButtonSolveWord';
+    import ButtonSkipWord from './controls/ButtonSkipWord';
 
     export default {
 
@@ -48,12 +52,14 @@
             Teams,
             Countdown,
             AdminControls,
+            CreateWord,
+            Words,
             ButtonLeaveRoom,
             ButtonSwitchTeam,
-            CreateWord,
             ButtonStartRound,
             ButtonStartGame,
-            Words,
+            ButtonSolveWord,
+            ButtonSkipWord,
         },
 
         props: {
@@ -171,6 +177,10 @@
         position: relative;
     }
 
-    .room__actions { }
+    .room__actions {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
     .room__bottom { }
 </style>

@@ -62,10 +62,6 @@ $font-word: 'Indie Flower', cursive;
 
 @mixin typo-word {
     font-family: $font-word;
-    font-size: 9vw;
+    font-size: 30px;
     line-height: 1em;
-
-    @include mq($from: tablet) {
-        font-size: 5vw;
-    }
 }

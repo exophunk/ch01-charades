@@ -1,24 +1,15 @@
 <template>
     <div class="words">
-
-        <div
-            class="words__inner"
-        >
-            <Word
+        <transition-group name="word" tag="ul">
+            <li
                 v-for="word in unsolvedWords"
                 :key="word.id"
-                :word="word"
-                :randomX="Math.random()"
-                :randomY="Math.random()"
-                :randomRotation="Math.random()"
-                :is-drawn="isPlaying && drawnWord && word.id === drawnWord.id"
-            />
-        </div>
-
-        <div v-if="isPlaying" class="buttons">
-            <button class="button-solve-word" @click="solveWord">Wort erraten</button>
-            <button class="button-skip-word" @click="skipWord">Überspringen</button>
-        </div>
+                class="word-list__word"
+                :class="{ 'word-list__word--is-drawn': word == drawnWord }"
+            >
+                <Word :word="word" />
+            </li>
+        </transition-group>
     </div>
 </template>
 
@@ -28,21 +19,16 @@
     import { mapGetters, mapState } from 'vuex';
     import Word from './Word';
 
+
     export default {
 
         components: {
             Word,
         },
 
-        data() {
-            return {
-                drawnWord: null,
-            };
-        },
-
         computed: {
-            ...mapState(['isRoundActive']),
-            ...mapGetters(['cycle', 'isThisUsersTurn', 'unsolvedWords']),
+            ...mapState(['isRoundActive', 'drawnWord']),
+            ...mapGetters(['isThisUsersTurn', 'unsolvedWords']),
 
             isPlaying() {
                 return this.isRoundActive && this.isThisUsersTurn;
@@ -52,32 +38,11 @@
         watch: {
             isPlaying() {
                 if (this.isPlaying) {
-                    this.chooseRandomWord();
+                    this.$store.dispatch('chooseRandomWord');
                 }
             },
         },
 
-        mounted() {
-        },
-
-        methods: {
-            async chooseRandomWord() {
-                const otherWords = this.unsolvedWords.length > 1 ? this.unsolvedWords.filter(word => word !== this.drawnWord) : this.unsolvedWords;
-                this.drawnWord = otherWords[Math.floor(Math.random() * otherWords.length)];
-            },
-
-            async solveWord() {
-                this.$set(this.drawnWord, 'isJustSolved', true);
-                await new Promise((resolve) => { setTimeout(() => { resolve() }, 500) });
-                await this.$store.dispatch('solveWord', this.drawnWord);
-                this.chooseRandomWord();
-
-            },
-
-            skipWord() {
-                this.chooseRandomWord();
-            },
-        },
     }
 </script>
 
@@ -91,42 +56,17 @@
         // }
     }
 
-    .button-solve-word {
+    .word-list__word {
         position: absolute;
-        border-radius: 50%;
-        width: 90px;
-        height: 90px;
-        bottom: 0;
-        left: 25%;
-        background: white;
-        transform: translateX(-50%);
-        border: 1px solid black;
-        z-index: 2;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        perspective: 700px;
 
-        @include mq($from: tablet) {
-            width: 70px;
-            height: 70px;
+        &.word-list__word--is-drawn {
+            z-index: 1;
         }
     }
-
-    .button-skip-word {
-        position: absolute;
-        border-radius: 50%;
-        width: 90px;
-        height: 90px;
-        bottom: 0;
-        left: 75%;
-        transform: translateX(-50%);
-        background: white;
-        border: 1px solid black;
-        z-index: 2;
-
-        @include mq($from: tablet) {
-            width: 70px;
-            height: 70px;
-        }
-    }
-
-
 
 </style>

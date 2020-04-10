@@ -5,7 +5,10 @@
             v-for="(team, i) in teams"
             :key="`name-${team.id}`"
             class="team"
-            :class="`team-${i+1}`"
+            :class="{
+                [`team-${i+1}`]:  true,
+                'team--is-score-big': team.score > 30
+            }"
         >
             <h3 class="team__name">{{ team.name }}</h3>
 
@@ -61,18 +64,7 @@
         },
 
         computed: {
-
             ...mapGetters(['teams', 'latestRound', 'currentPlayer']),
-
-            // isActiveTurn() {
-            //     return this.latestRound != null && this.$store.state.isRoundActive && this.user.id === this.latestRound.user_id;
-            // },
-
-            classes() {
-                return {
-                    'user--is-active-turn': this.isActiveTurn,
-                };
-            },
         }
 
     }
@@ -93,12 +85,12 @@
     }
 
 
-    .team-1 { background: linear-gradient(195deg, var(--color-team-1-light) 10%, var(--color-team-1-dark) 80%); }
+    .team-1 { background: linear-gradient(185deg, var(--color-team-1-light) 10%, var(--color-team-1-dark) 100%); }
     .team-1 .team__name { color: var(--color-team-1-heading); }
     .team-1 .team__score { color: var(--color-team-1-contrast); }
     .team-1 .score-dash, .team-1 .score-dash--over, { background: var(--color-team-1-contrast); }
 
-    .team-2 { background: linear-gradient(195deg, var(--color-team-2-light) 10%, var(--color-team-2-dark) 80%); }
+    .team-2 { background: linear-gradient(185deg, var(--color-team-2-light) 10%, var(--color-team-2-dark) 100%); }
     .team-2 .team__name { color: var(--color-team-2-heading); }
     .team-2 .team__score { color: var(--color-team-2-contrast); }
     .team-2 .score-dash, .team-2 .score-dash--over, { background: var(--color-team-2-contrast); }
@@ -163,5 +155,17 @@
             font-weight: bold;
         }
     }
+
+    .team--is-score-big {
+        .team__score-fives,
+        .team__score-ones {
+            display: none;
+        }
+
+        .team__score-number {
+            margin-left: 0;
+        }
+    }
+
 
 </style>
