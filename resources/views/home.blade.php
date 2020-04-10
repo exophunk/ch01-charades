@@ -9,28 +9,32 @@
 
         <div class="pane pane-rooms">
 
-            <h2 class="pane-rooms__heading">{{ 'Offene Spiele' }}</h2>
+            @if (count($rooms) > 0)
+                <h2 class="pane-rooms__heading">{{ 'Offene Spiele' }}</h2>
 
-            <ul class="list-rooms">
-                @foreach ($rooms as $room)
-                    <li class="list-rooms__room">
-                        <a class="list-rooms__room-link" href="{{ route('room', [ 'room_id' => $room->id ]) }}">
-                            <div class="list-rooms__room-name">
-                                {{ $room->name }}
-                            </div>
-                            <div class="list-rooms__room-admin">
-                                {{ $room->admin->name }}
-                            </div>
-                            <div class="list-rooms__room-players">
-                                {{ count($room->teamUsers) }} <i class="far fa-user"></i>
-                            </div>
-                            <div class="list-rooms__room-button">
-                                <button class="button-join-room"><i class="fas fa-arrow-right"></i></button>
-                            </div>
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
+                <ul class="list-rooms">
+                    @foreach ($rooms as $room)
+                        @if ($room->teamUsers()->count() > 0)
+                            <li class="list-rooms__room">
+                                <a class="list-rooms__room-link" href="{{ route('room', [ 'room_id' => $room->id ]) }}">
+                                    <div class="list-rooms__room-name">
+                                        {{ $room->name }}
+                                    </div>
+                                    <div class="list-rooms__room-admin">
+                                        {{ $room->admin ? $room->admin->name : '' }}
+                                    </div>
+                                    <div class="list-rooms__room-players">
+                                        {{ count($room->teamUsers) }} <i class="far fa-user"></i>
+                                    </div>
+                                    <div class="list-rooms__room-button">
+                                        <button class="button-join-room"><i class="fas fa-arrow-right"></i></button>
+                                    </div>
+                                </a>
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
+            @endif
         </div>
 
 
