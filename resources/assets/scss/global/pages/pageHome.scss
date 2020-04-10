@@ -17,6 +17,10 @@
         margin-bottom: 20px;
         overflow-y: scroll;
         flex-grow: 0;
+
+        @include mq($from: tablet) {
+            overflow: auto;
+        }
     }
 
     .pane-rooms__heading {
