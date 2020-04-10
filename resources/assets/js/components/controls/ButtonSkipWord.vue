@@ -4,7 +4,7 @@
         @click="skipWord"
         class="button button-skip-word"
     >
-        {{ 'skip' }}
+        <i class="fas fa-undo fa-lg"></i>
     </button>
 </template>
 

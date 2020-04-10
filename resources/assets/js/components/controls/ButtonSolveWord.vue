@@ -3,8 +3,9 @@
         v-if="isPlaying"
         @click="solveWord"
         class="button button-solve-word"
+        :disabled="isDisabled"
     >
-        {{ 'OK' }}
+        <i class="fas fa-check fa-lg"></i>
     </button>
 </template>
 
@@ -13,6 +14,12 @@
     import { mapGetters, mapState } from 'vuex';
 
     export default {
+        data() {
+            return {
+                isDisabled: false,
+            };
+        },
+
         computed: {
             ...mapState(['isRoundActive']),
             ...mapGetters(['isThisUsersTurn']),
@@ -24,8 +31,10 @@
 
         methods: {
             async solveWord() {
+                this.isDisabled = true;
                 await this.$store.dispatch('solveWord');
                 await this.$store.dispatch('chooseRandomWord');
+                this.isDisabled = false;
             },
         },
     }

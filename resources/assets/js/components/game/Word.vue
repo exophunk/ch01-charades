@@ -76,8 +76,6 @@
             this.randomY = Math.random();
             this.randomRotation = Math.random();
 
-            this.setWordPositions();
-
             this.$options.resizeListener = () => {
                 this.setWordPositions();
             };
@@ -85,7 +83,10 @@
             window.addEventListener('resize', this.$options.resizeListener);
 
             setTimeout(() => {
-                this.isPositioned = true;
+                this.setWordPositions();
+                setTimeout(() => {
+                    this.isPositioned = true;
+                }, 50);
             }, 50);
 
         },

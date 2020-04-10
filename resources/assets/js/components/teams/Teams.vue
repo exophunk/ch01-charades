@@ -12,7 +12,7 @@
         >
             <h3 class="team__name">{{ team.name }}</h3>
 
-            <ul class="team__team" :class="{ 'team__team--multiple' : team.users.length > 1 }">
+            <ul class="team__team">
                 <li
                     v-for="user in team.users"
                     :key="user.id"
@@ -102,18 +102,17 @@
 
     .team__team {
         margin-top: 10px;
-        &.team__team--multiple {
-            column-count: 2;
-            column-gap: 5px;
-        }
+        display: flex;
+        flex-wrap: wrap;
     }
 
     .team__user {
         flex-shrink: 0;
+        width: 50%;
     }
 
-    .team__user + .team__user {
-        margin-top: 10px;
+    .team__user {
+        margin-bottom: 10px;
     }
 
     .team__score {

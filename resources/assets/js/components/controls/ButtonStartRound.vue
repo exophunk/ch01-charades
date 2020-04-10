@@ -44,5 +44,6 @@
         background: linear-gradient(210deg, var(--color-current-team-light) 20%, var(--color-current-team-dark) 80%);
         box-shadow: 2px 5px 11px 0 rgba(24,34,70,0.24);
         color: var(--color-current-team-contrast);
+        z-index: 10;
     }
 </style>

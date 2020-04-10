@@ -41,9 +41,6 @@ const store = new Vuex.Store({
         setDrawnWord(state, drawnWord) {
             state.drawnWord = drawnWord;
         },
-        setDrawnWordJustSolved(state) {
-            Vue.set(state.drawnWord, 'isJustSolved', true);
-        },
 
     },
 
@@ -151,13 +148,16 @@ const store = new Vuex.Store({
         },
         currentUser(state, otherGetters) {
             if (!state.room.next_turn) {
-                return state.user;
+                return null;
             }
             const id = otherGetters.latestRound && state.isRoundActive ? otherGetters.latestRound.user_id : state.room.next_turn.user_id;
             return otherGetters.allUsers.find(user => user.id === id);
         },
         isThisUsersTurn(state, otherGetters) {
             return state.user.id === otherGetters.currentUser.id;
+        },
+        isThisUsersTeamTurn(state, otherGetters) {
+            return otherGetters.currentTeam === otherGetters.userTeam;
         },
         isAdmin(state) {
             return state.user.id === state.room.admin_user_id;

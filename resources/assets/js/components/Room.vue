@@ -15,6 +15,7 @@
             <CreateWord />
             <ButtonSkipWord />
             <ButtonSolveWord />
+            <NextActionText />
         </div>
 
         <div class="room__bottom">
@@ -44,6 +45,7 @@
     import ButtonStartRound from './controls/ButtonStartRound';
     import ButtonSolveWord from './controls/ButtonSolveWord';
     import ButtonSkipWord from './controls/ButtonSkipWord';
+    import NextActionText from './controls/NextActionText';
 
     export default {
 
@@ -60,6 +62,7 @@
             ButtonStartGame,
             ButtonSolveWord,
             ButtonSkipWord,
+            NextActionText,
         },
 
         props: {
@@ -74,7 +77,7 @@
         },
 
         computed: {
-            ...mapGetters(['cycle', 'latestRound', 'currentTeam', 'currentTeamIndex']),
+            ...mapGetters(['cycle', 'isThisUsersTurn', 'latestRound', 'currentTeam', 'currentTeamIndex']),
 
             classes() {
                 const classes = [];
@@ -152,6 +155,8 @@
                     && isBefore(new Date(), new Date(this.latestRound.round_end));
 
                 if (isRoundActive != this.$store.state.isRoundActive) {
+                    if (this.isThisUsersTurn)
+                    this.$store.commit('setDrawnWord', null);
                     this.$store.commit('setIsRoundActive', isRoundActive);
                 }
             }

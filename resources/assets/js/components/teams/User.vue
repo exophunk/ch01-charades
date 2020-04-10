@@ -26,7 +26,7 @@
 
         computed: {
 
-            ...mapGetters(['latestRound', 'currentUser']),
+            ...mapGetters(['cycle', 'latestRound', 'currentUser']),
 
             isCurrentUser() {
                 return this.user.id === this.currentUser.id
@@ -34,7 +34,7 @@
 
             classes() {
                 return {
-                    'user--is-current': this.isCurrentUser,
+                    'user--is-current': this.isCurrentUser && this.cycle > 0,
                 };
             },
         }

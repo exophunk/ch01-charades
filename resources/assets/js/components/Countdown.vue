@@ -1,18 +1,19 @@
 <template>
     <div :class="classes" class="countdown">
         <transition name="fade">
-            <div v-if="latestRound && isRoundActive">
-                <div
-                    :style="barStyle"
-                    class="countdown__bar"
-                >
-                </div>
-                <div
-                    v-if="latestRound && isRoundActive"
-                    class="countdown__text"
-                >
-                    {{ text }}
-                </div>
+            <div
+                v-if="latestRound && isRoundActive"
+                :style="barStyle"
+                class="countdown__bar"
+            >
+            </div>
+        </transition>
+        <transition name="fade">
+            <div
+                v-if="latestRound && isRoundActive"
+                class="countdown__text"
+            >
+                {{ text }}
             </div>
         </transition>
     </div>
@@ -31,7 +32,7 @@
             return {
                 milliSeconds: 0,
                 seconds: 0,
-                percentage: 100,
+                barScale: 1,
                 text: '',
             };
         },
@@ -48,7 +49,7 @@
 
             barStyle() {
                 return {
-                    transform: `scaleX(${this.percentage}%)`,
+                    transform: `scaleX(${this.barScale})`,
                 };
             },
         },
@@ -62,7 +63,7 @@
                 if (this.latestRound) {
                     this.milliSeconds = differenceInMilliseconds(new Date(this.latestRound.round_end), new Date());
                     this.seconds = Math.round(this.milliSeconds / 1000);
-                    this.percentage = 100 / (this.room.round_duration * 1000) * this.milliSeconds;
+                    this.barScale = 1 / (this.room.round_duration * 1000) * this.milliSeconds;
                     this.text = format(addSeconds(new Date(0), this.seconds), 'mm:ss');
                 }
             }
@@ -77,17 +78,29 @@
 <style lang="scss" scoped>
     .countdown {
         position: relative;
-        width: 100%;
-        height: 30px;
+        height: 23px;
+        background: linear-gradient(182deg, $color-grey-light 10%, $color-grey-dark 140%);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 150%;
+            height: 100%;
+            transform: translateX(-25%);
+            box-shadow: 4px 4px 4px rgba(black, 0.2) inset;
+        }
     }
 
     .countdown__bar {
         position: absolute;
         height: 100%;
         width: 100%;
-        background: $color-active;
         transform-origin: left center;
-        // transition: transform 1s linear;
+        background: linear-gradient(183deg, var(--color-current-team-light) 10%, var(--color-current-team-dark) 100%);
     }
 
     .countdown__text {
@@ -95,8 +108,8 @@
         left: 50%;
         top: 50%;
         transform: translateX(-50%) translateY(-50%);
-        font-size: 16px;
-        font-weight: bold;
+        line-height: 1em;
+        color: var(--color-current-team-contrast);
     }
 
     .countdown--low {
