@@ -13,6 +13,7 @@ const config = {
         proxy: process.env.APP_URL,
         notify: false,
         open: false,
+        ghostMode: false,
         files: [
             baseDir + '/{public,app}/**/*.{php,html}',
             baseDir + '/public/build/**/*.{js,css}',
