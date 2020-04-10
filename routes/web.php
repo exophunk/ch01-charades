@@ -21,7 +21,8 @@ Route::get('/about', 'PageHomeController@about')->name('about');
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
-    Route::post('/actions/home/create-room', 'PageHomeController@actionCreateRoom')->name('action-create-room');
+    Route::get('/create-room', 'PageRoomController@showCreateRoom')->name('create-room');
+    Route::post('/actions/home/create-room', 'PageRoomController@actionCreateRoom')->name('action-create-room');
 
     Route::middleware(['room.join'])->group(function () {
         Route::get('/room/{room_id}', 'PageRoomController@index')->name('room');

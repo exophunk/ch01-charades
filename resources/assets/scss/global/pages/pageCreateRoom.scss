@@ -1,0 +1,28 @@
+.page-create-room {
+    height: 100%;
+    padding: 15px 15px 30px 15px;
+
+    .page-create-room__form {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .pane-fields { }
+
+
+    .pane-top {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .pane-bottom {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+}
+

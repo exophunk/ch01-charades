@@ -35,27 +35,4 @@ class PageHomeController extends Controller
     {
         return view('about');
     }
-
-    /**
-     *
-     */
-    public function actionCreateRoom(Request $request)
-    {
-        $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-        ]);
-
-        $room = Room::create($request->all());
-        $room->admin()->associate(auth()->user());
-        $room->teams()->createMany([
-            [ 'name' => 'Team 1'],
-            [ 'name' => 'Team 2'],
-        ]);
-        $room->save();
-        return redirect()->route('room', [ 'room_id' => $room->id]);
-    }
 }
