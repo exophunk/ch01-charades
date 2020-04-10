@@ -64,3 +64,8 @@
     background: linear-gradient(210deg, $color-team-1-light  20%, $color-team-1-dark 80%);
     box-shadow: 3px 3px 11px 0 rgba(black, 0.2);
 }
+
+.field__error {
+    margin-top: 10px;
+    color: rgb(250, 119, 119);
+}
