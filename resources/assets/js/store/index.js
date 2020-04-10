@@ -91,7 +91,7 @@ const store = new Vuex.Store({
             await axios.post('/actions/room/leave-room', {
                 room_id: state.room.id,
             });
-            window.location.href = '/home';
+            window.location.href = '/';
         },
         async switchTeam({ commit, state }) {
             await axios.post('/actions/room/switch-team', {
@@ -104,6 +104,11 @@ const store = new Vuex.Store({
                 room_id: state.room.id,
                 user_id: user.id,
             });
+        },
+        async logout({ commit, state }, user) {
+            await axios.post('/logout');
+            window.location.href = '/';
+
         },
         chooseRandomWord({ commit, state, getters }) {
             const otherWords = getters.unsolvedWords.length > 1 ? getters.unsolvedWords.filter(word => word !== state.drawnWord) : getters.unsolvedWords;

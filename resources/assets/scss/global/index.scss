@@ -1,9 +1,8 @@
 
 // Libraries
-// @import "../../../../node_modules/bulma/bulma";
 @import '../includes/index.scss';
 
-// // Global styles
+// Global styles
 @import 'normalize.scss';
 @import 'print.scss';
 @import 'defaults.scss';
@@ -11,4 +10,9 @@
 @import 'body.scss';
 @import 'transitions.scss';
 @import 'teamcolors.scss';
+@import 'forms.scss';
 
+@import 'pages/pageCreateRoom.scss';
+@import 'pages/pageHome.scss';
+@import 'pages/pageLogin.scss';
+@import 'pages/pageSignup.scss';

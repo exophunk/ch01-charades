@@ -10,7 +10,6 @@ class PageHomeController extends Controller
     /**
      * Show home
      *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
@@ -20,6 +19,22 @@ class PageHomeController extends Controller
         ]));
     }
 
+
+    /**
+     *
+     */
+    public function docs()
+    {
+        return view('docs');
+    }
+
+    /**
+     *
+     */
+    public function about()
+    {
+        return view('about');
+    }
 
     /**
      *

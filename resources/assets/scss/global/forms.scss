@@ -1,0 +1,66 @@
+.field { }
+
+.field + .field {
+    margin-top: 20px;
+}
+
+.field-text {
+    position: relative;
+
+    .field__label {
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 20px 0;
+        transition: all 0.3s ease;
+        // display: none;
+    }
+    .field__input {
+        background: none;
+        width: 100%;
+        padding: 20px 0;
+        border: 0;
+        border-bottom: 2px solid white;
+        font-family: inherit;
+        color: inherit;
+
+        &:invalid,
+        &.field--is-invalid {
+            box-shadow: none;
+            border-bottom: 2px solid rgba(red, 0.5);
+        }
+    }
+
+    .field__input:focus + .field__label,
+    .field__input:not(:placeholder-shown) + .field__label {
+        font-size: 10px;
+        transform: translateY(-20px);
+        color: $color-grey;
+    }
+}
+
+.field-checkbox {
+    padding-top: 20px;
+    .field__input {
+        // width: 30px;
+        // height: 30px;
+        appearance: checkbox;
+        // outline: 5px solid red;
+    }
+
+    .field__label {
+        margin-left: 10px;
+    }
+}
+
+.button-submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(210deg, $color-team-1-light  20%, $color-team-1-dark 80%);
+    box-shadow: 3px 3px 11px 0 rgba(black, 0.2);
+}

@@ -1,0 +1,28 @@
+.page-signup {
+    height: 100%;
+    padding: 15px 15px 30px 15px;
+}
+
+.page-signup__form {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.pane-fields { }
+
+
+.pane-top {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pane-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.link-reset-passwort { }

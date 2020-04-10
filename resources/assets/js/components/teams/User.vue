@@ -59,7 +59,7 @@
         font-size: 12px;
         font-weight: bold;
         margin-bottom: 3px;
-        line-height: 1em;
+        line-height: 1.1em;
         white-space: nowrap;
 
     }

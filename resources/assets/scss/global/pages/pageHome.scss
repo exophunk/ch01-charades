@@ -1,0 +1,94 @@
+.page-home {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+
+    .intro-image {
+        margin-top: 40px;
+        width: 80%;
+    }
+
+
+    .pane-rooms {
+        margin-top: 20px;
+        width: calc(100% - 2 * 15px);
+        margin-bottom: 20px;
+        overflow-y: scroll;
+        flex-grow: 0;
+    }
+
+    .pane-rooms__heading {
+        @include typo-small;
+        color: $color-grey;
+        margin-bottom: 10px;
+    }
+    .list-rooms { }
+
+    .list-rooms__room {  }
+
+    .list-rooms__room + .list-rooms__room { margin-top: 20px; }
+
+    .list-rooms__room-link {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 100%;
+
+        > * + * { margin-left: 15px; }
+    }
+    .list-rooms__room-name {
+        margin-right: auto;
+        font-weight: 900;
+    }
+    .list-rooms__room-admin {
+        color: $color-team-2;
+    }
+    .list-rooms__room-players { }
+
+    .list-rooms__room-button { }
+
+    .button-join-room {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        color: $color-white;
+        background: $color-team-2;
+        box-shadow: 2px 5px 11px 0 rgba(black, 0.3);
+    }
+
+    .pane-bottom {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        width: calc(100% - 2 * 15px);
+        margin-bottom: 30px;
+    }
+
+    .meta-links { }
+    .meta-links__link {
+
+    }
+
+
+
+    .meta-links__link + .meta-links__link { margin-top: 20px; }
+
+    .button-create-room {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: linear-gradient(210deg, $color-team-1-light  20%, $color-team-1-dark 80%);
+        box-shadow: 3px 3px 11px 0 rgba(black, 0.2);
+        color: $color-text;
+    }
+}
+

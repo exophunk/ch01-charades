@@ -47,11 +47,12 @@
     input {
         flex-grow: 1;
         margin-right: 15px;
-        height: 70px;
+        height: 50px;
         font-family: $font-word;
         font-size: 20px;
         font-weight: bold;
         line-height: 1em;
+        padding: 0;
         border: 0;
         border-bottom: 2px solid $color-white;
         background: none;

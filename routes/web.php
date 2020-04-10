@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', 'PageHomeController@index')->name('home');
+Route::get('/docs', 'PageHomeController@docs')->name('docs');
+Route::get('/about', 'PageHomeController@about')->name('about');
 
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home', 'PageHomeController@index')->name('home');
     Route::post('/actions/home/create-room', 'PageHomeController@actionCreateRoom')->name('action-create-room');
 
     Route::middleware(['room.join'])->group(function () {
